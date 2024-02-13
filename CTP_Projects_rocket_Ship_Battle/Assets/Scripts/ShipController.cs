@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ShipController : MonoBehaviour
 {
     float SpeedRate;
+    int hp = 1600;
     [SerializeField]
     float maxSpeed,maxturnRate;
     Rigidbody rb;
@@ -12,7 +13,7 @@ public class ShipController : MonoBehaviour
     public bool isControlling;
     [SerializeField]
     Slider speedSlider, steerSlider;
-
+    bool isOnFire;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +27,18 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isOnFire)
+        {
+            hp -= (int)(60 * Time.deltaTime);
+        }
+        SpeedRate = speedSlider.value;
+        currentTurnRate = steerSlider.value;
         transform.Rotate(0, currentTurnRate * SpeedRate*Time.deltaTime, 0);
 
     }
     private void FixedUpdate()
     {
+
         rb.AddForce(transform.forward * SpeedRate);
         if (rb.velocity.x > 0)
         {
@@ -38,7 +46,7 @@ public class ShipController : MonoBehaviour
         }
         else if (rb.velocity.x < 0)
         {
-            rb.velocity += new Vector3(0, rb.velocity.x / 10, 0);
+            rb.velocity -= new Vector3(rb.velocity.x / 10,0, 0);
         }
         if (rb.velocity.z > 0)
         {
@@ -46,16 +54,65 @@ public class ShipController : MonoBehaviour
         }
         else if(rb.velocity.z < 0)
         {
-            rb.velocity += new Vector3(0, 0, rb.velocity.z / 10);
+            rb.velocity -= new Vector3(0, 0, rb.velocity.z / 10);
         }
     }
-    public void SpeedControl(float rate)
+    
+    private void OnTriggerStay(Collider other)
     {
-        SpeedRate = rate;
+        if(other.tag==Constrain.TAG_Water)
+        {
+            rb.AddForce(Vector3.up * 10f);
+            rb.useGravity = false;
+            
+            
+        }
+        if (other.tag == Constrain.TAG_Border)
+        {
+            transform.position = new Vector3(0, -66.8f, 0);
+        }
     }
-    public void TurnControl(float rate)
+    private void OnTriggerExit(Collider other)
     {
-        currentTurnRate = rate;
+        if (other.tag == Constrain.TAG_Water)
+        {
+            rb.velocity -= VerticalSpeed();
+            rb.useGravity = true;
+            
+        }
+        
+         
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == Constrain.TAG_Border)
+        {
+            transform.position = new Vector3(0, -66.8f, 0);
+        }
+    }
+    float CurrentSpeed()
+    {
+        float x = rb.velocity.x, z = rb.velocity.z;
+        float result = Mathf.Sqrt((x * x) + (z * z));
+        return result;
+
+    }
+    Vector3 VerticalSpeed()
+    {
+        if(rb.velocity.y>0)
+        {
+            return new Vector3(0, rb.velocity.y, 0);
+        }
+        else if(rb.velocity.y<0)
+        {
+            return new Vector3(0, rb.velocity.y, 0);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
     
         
