@@ -6,6 +6,8 @@ public class LevelManager : MonoBehaviour
 {
     public int teamARocketNum, teamBRocketNum;
     public bool gameOver;
+    public int[] teamAIngredient, teamBIngredient;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +17,13 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(gameOver)
+        {
+
+        }
+    }
+    public void GameOver()
+    {
+        gameOver = true;
     }
 }

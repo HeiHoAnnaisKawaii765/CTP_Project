@@ -14,6 +14,8 @@ public class ShipController : MonoBehaviour
     [SerializeField]
     Slider speedSlider, steerSlider;
     bool isOnFire;
+    public string team;
+    LevelManager lm;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        lm = FindObjectOfType<LevelManager>();
         if(isOnFire)
         {
             hp -= (int)(60 * Time.deltaTime);
