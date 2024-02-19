@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class LevelManager : MonoBehaviour
+public class LevelManager : MonoBehaviourPun
 {
     public int teamARocketNum, teamBRocketNum;
     public bool gameOver;

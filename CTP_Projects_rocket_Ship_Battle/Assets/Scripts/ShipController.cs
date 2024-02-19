@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ShipController : MonoBehaviour
+using Photon.Pun;
+public class ShipController : MonoBehaviourPun
 {
     float SpeedRate;
     int hp = 1600;
