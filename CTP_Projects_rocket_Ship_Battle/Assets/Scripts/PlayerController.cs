@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviourPun
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
+    bool touchVehicle, usingVeh;
     private void Awake()
     {
         if (photonView.IsMine)
@@ -27,8 +28,11 @@ public class PlayerController : MonoBehaviourPun
         }
         else
         {
-            Destroy(ui[0]);
-            Destroy(ui[1]);
+            for(int i = 0;i<ui.Length;i++)
+            {
+                Destroy(ui[i]);
+            }
+            
             // playerName.text = photonView.Owner.NickName;//show the name belongs to that player
         }
     }
@@ -83,6 +87,39 @@ public class PlayerController : MonoBehaviourPun
             }
 
 
+
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "AirShip")
+        {
+            if (!usingVeh)
+            {
+                transform.SetParent(other.gameObject.transform);
+            }
+
+        }
+        if (other.tag == "Vehicle")
+        {
+
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "AirShip")
+        {
+            if (!usingVeh)
+            {
+                transform.SetParent(null);
+            }
+
+
+        }
+        if (other.tag == "Vehicle")
+        {
+            touchVehicle = false;
+            
 
         }
     }
