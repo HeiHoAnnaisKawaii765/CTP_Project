@@ -17,6 +17,10 @@ public class ShipController : MonoBehaviourPun
     bool isOnFire;
     public string team;
     LevelManager lm;
+    PlayerController[] pCon;
+    [SerializeField]
+    GameObject takeControlButton,rudder,shipcontrolSlider;
+    [SerializeField]
     // Start is called before the first frame update
     void Start()
     {
@@ -95,6 +99,23 @@ public class ShipController : MonoBehaviourPun
         {
             transform.position = new Vector3(0, -66.8f, 0);
         }
+        if(other.tag =="Bullet")
+        {
+            for(int i =0;i<pCon.Length;i++)
+            {
+                pCon[i].photonView.RPC("HitEffect", RpcTarget.All,team);
+            }
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag =="Player")
+        {
+            if(!isControlling)
+            {
+                takeControlButton.SetActive(true);
+            }
+        }
     }
     float CurrentSpeed()
     {
@@ -117,6 +138,12 @@ public class ShipController : MonoBehaviourPun
         {
             return Vector3.zero;
         }
+    }
+    [PunRPC]
+    void GetHit(int damage)
+    {
+        hp -= damage;
+        
     }
     
         

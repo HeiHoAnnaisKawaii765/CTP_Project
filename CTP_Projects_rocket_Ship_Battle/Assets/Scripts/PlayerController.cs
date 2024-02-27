@@ -13,11 +13,20 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField]
     GameObject[] ui;
     [SerializeField]
-    Transform camPos,camSet;
+    Transform camPos, camSet;
+    [SerializeField]
+    GameObject fireExtingsher;
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
-    bool touchVehicle, usingVeh;
+    bool touchVehicle, usingVeh, useFireExtingsher,placeRocket;
+    public
+    string team;
+    ShipController ship;
+    [SerializeField]
+    Animator anim;
+    Transform rayHutPos;
+
     private void Awake()
     {
         if (photonView.IsMine)
@@ -28,11 +37,11 @@ public class PlayerController : MonoBehaviourPun
         }
         else
         {
-            for(int i = 0;i<ui.Length;i++)
+            for (int i = 0; i < ui.Length; i++)
             {
                 Destroy(ui[i]);
             }
-            
+
             // playerName.text = photonView.Owner.NickName;//show the name belongs to that player
         }
     }
@@ -60,11 +69,11 @@ public class PlayerController : MonoBehaviourPun
         }
         levelManager = FindObjectOfType<LevelManager>();
         ShootRay();
-        
+
         transform.position += transform.forward * moveSpeed * moveJoystick.Vertical * Time.deltaTime;
         transform.position += transform.right * moveSpeed * moveJoystick.Horizontal * Time.deltaTime;
-       
-        
+
+
         float mouseX = dirJoystick.Horizontal * mouseSensitivity * Time.deltaTime;
         float mouseY = dirJoystick.Vertical * mouseSensitivity * Time.deltaTime;
 
@@ -82,7 +91,16 @@ public class PlayerController : MonoBehaviourPun
 
             if (hit.transform.tag == "Target")
             {
-                
+                if(placeRocket
+                   )
+                {
+
+                }
+                else
+                {
+
+                }
+                rayHutPos.position = hit.transform.position;
 
             }
 
@@ -94,6 +112,8 @@ public class PlayerController : MonoBehaviourPun
     {
         if (other.tag == "AirShip")
         {
+            ship = other.GetComponent<ShipController>();
+
             if (!usingVeh)
             {
                 transform.SetParent(other.gameObject.transform);
@@ -119,8 +139,63 @@ public class PlayerController : MonoBehaviourPun
         if (other.tag == "Vehicle")
         {
             touchVehicle = false;
-            
+
 
         }
+    }
+    [PunRPC]
+    public void TeamSelect(string teamName)
+    {
+        team = teamName;
+    }
+    [PunRPC]
+    public void HitEffect(string shipTeamName)
+    {
+        if (team == shipTeamName)
+        {
+            Handheld.Vibrate();
+        }
+
+    }
+    [PunRPC]
+    void UseExting()
+    {
+        if(useFireExtingsher)
+        {
+            useFireExtingsher = false;
+            placeRocket = true;
+
+        }
+        else
+        {
+            useFireExtingsher = true;
+        }
+        
+
+    }
+    [PunRPC]
+    void PlaceRocket()
+    {
+        if (useFireExtingsher)
+        {
+            useFireExtingsher = false;
+        }
+        else
+        {
+            useFireExtingsher = true;
+            placeRocket = false;
+        }
+
+
+    }
+    public void SwitchModeButton(string buttonFunction)
+    {
+        switch(buttonFunction)
+        {
+            case "FX":
+                UseExting();
+                break;
+        }
+
     }
 }
