@@ -11,7 +11,7 @@ public class NetworkLoginin : MonoBehaviourPunCallbacks
     [SerializeField]
     GameObject loginInObj, nameObj, roomListObj;
     [SerializeField]
-    InputField roomName, playerName;
+    TMP_InputField roomName, playerName;
     [SerializeField]
     RoomListManager listManager;
     int roomSL;
