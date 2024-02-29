@@ -4,8 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 public class LevelManager : MonoBehaviourPun
 {
-    public int teamARocketNum, teamBRocketNum;
-    public bool gameOver;
+    public int teamARocketNum, teamBRocketNum,teamAPlayerNum,teamBPlayerNum;
+    public bool gameOver,gameStart;
     public int[] teamAIngredient, teamBIngredient;
 
     // Start is called before the first frame update
@@ -17,13 +17,22 @@ public class LevelManager : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if(gameOver)
+        
+        if(!gameOver)
         {
-
+                if(!gameStart)
+                {
+                    
+                }
         }
     }
     public void GameOver()
     {
         gameOver = true;
+    }
+    [PunRPC]
+    private void LowestRocketValue()
+    {
+        
     }
 }

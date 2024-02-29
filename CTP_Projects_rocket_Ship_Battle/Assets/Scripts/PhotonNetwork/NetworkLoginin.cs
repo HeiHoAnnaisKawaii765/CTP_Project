@@ -45,7 +45,7 @@ public class NetworkLoginin : MonoBehaviourPunCallbacks
         }
         roomSL = selection;
         loginInObj.SetActive(false);
-        RoomOptions options = new RoomOptions { MaxPlayers = 4 };
+        RoomOptions options = new RoomOptions { MaxPlayers = 10 };
 
         PhotonNetwork.JoinOrCreateRoom(roomName.text, options, default);
     }

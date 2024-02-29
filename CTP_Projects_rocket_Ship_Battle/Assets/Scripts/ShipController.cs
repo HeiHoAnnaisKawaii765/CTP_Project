@@ -21,6 +21,7 @@ public class ShipController : MonoBehaviourPun
     [SerializeField]
     GameObject takeControlButton,rudder,shipcontrolSlider;
     [SerializeField]
+    
     // Start is called before the first frame update
     void Start()
     {

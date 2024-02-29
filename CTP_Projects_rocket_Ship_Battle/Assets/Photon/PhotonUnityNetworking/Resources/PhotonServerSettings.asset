@@ -44,6 +44,7 @@ MonoBehaviour:
   - UseExting
   - PlaceRocket
   - HitEffect
+  - LowestRocketValue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
