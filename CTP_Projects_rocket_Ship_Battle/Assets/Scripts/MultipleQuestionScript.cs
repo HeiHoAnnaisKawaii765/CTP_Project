@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class MultipleQuestionScript : MonoBehaviour
+using Photon.Pun;
+public class MultipleQuestionScript : MonoBehaviourPun
 {
     [SerializeField]
     string correctAnswer;
     [SerializeField]
     Image[] buttonBG;
+    LevelManager lm;
+    string team;
+    [SerializeField]
+    int reward;
+    private void Update()
+    {
+        lm = FindObjectOfType<LevelManager>();
+    }
     public void CheckResult(string answer)
     {
         switch(correctAnswer)
@@ -40,10 +49,18 @@ public class MultipleQuestionScript : MonoBehaviour
         if(answer==correctAnswer)
         {
             Debug.Log("Right");
+            lm.photonView.RPC("AddDedectRocket", RpcTarget.All,1, reward,team);
         }
         else
         {
             Debug.Log("Wrong");
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag =="Vehicle")
+        {
+            team = other.GetComponent<ShipController>().team;
         }
     }
 }

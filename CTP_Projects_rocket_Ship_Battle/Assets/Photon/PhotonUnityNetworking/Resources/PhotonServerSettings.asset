@@ -45,6 +45,11 @@ MonoBehaviour:
   - PlaceRocket
   - HitEffect
   - LowestRocketValue
+  - TeamMemberNumChange
+  - StartGame
+  - AddDedectRocket
+  - LaunchRocket
+  - ChangeRocket
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

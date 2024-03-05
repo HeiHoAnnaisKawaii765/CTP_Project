@@ -19,7 +19,7 @@ public class ShipController : MonoBehaviourPun
     LevelManager lm;
     PlayerController[] pCon;
     [SerializeField]
-    GameObject takeControlButton,rudder,shipcontrolSlider;
+    GameObject takeControlButton,rudder,shipcontrolSlider,shipUI;
     [SerializeField]
     
     // Start is called before the first frame update
@@ -115,6 +115,10 @@ public class ShipController : MonoBehaviourPun
             if(!isControlling)
             {
                 takeControlButton.SetActive(true);
+            }
+            else
+            {
+                takeControlButton.SetActive(false);
             }
         }
     }

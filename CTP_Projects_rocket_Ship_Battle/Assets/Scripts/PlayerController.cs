@@ -11,11 +11,11 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField]
     float moveSpeed, fireRate, mouseSensitivity = 100f, raycastDistance = 0.5f;
     [SerializeField]
-    GameObject[] ui;
+    GameObject[] ui,rocketModel,rocket;
     [SerializeField]
     Transform camPos, camSet;
     [SerializeField]
-    GameObject fireExtingsher;
+    GameObject fireExtingsher,teamSelectButtons,changeTeamButton;
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
@@ -26,7 +26,9 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField]
     Animator anim;
     Transform rayHutPos;
-
+    GameObject
+         localRocket;
+    int RocketSelection;
     private void Awake()
     {
         if (photonView.IsMine)
@@ -69,18 +71,32 @@ public class PlayerController : MonoBehaviourPun
         }
         levelManager = FindObjectOfType<LevelManager>();
         ShootRay();
+        if(usingVeh)
+        {
 
-        transform.position += transform.forward * moveSpeed * moveJoystick.Vertical * Time.deltaTime;
-        transform.position += transform.right * moveSpeed * moveJoystick.Horizontal * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += transform.forward * moveSpeed * moveJoystick.Vertical * Time.deltaTime;
+            transform.position += transform.right * moveSpeed * moveJoystick.Horizontal * Time.deltaTime;
 
+            if (fireExtingsher)
+            {
+                fireExtingsher.SetActive(true);
+            }
+            else
+            {
+                fireExtingsher.SetActive(false);
+            }
+            float mouseX = dirJoystick.Horizontal * mouseSensitivity * Time.deltaTime;
+            float mouseY = dirJoystick.Vertical * mouseSensitivity * Time.deltaTime;
 
-        float mouseX = dirJoystick.Horizontal * mouseSensitivity * Time.deltaTime;
-        float mouseY = dirJoystick.Vertical * mouseSensitivity * Time.deltaTime;
-
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        camSet.transform.localRotation = Quaternion.Euler(-xRotation, 0f, 0f);
-        transform.Rotate(-Vector3.up * mouseX);
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            camSet.transform.localRotation = Quaternion.Euler(-xRotation, 0f, 0f);
+            transform.Rotate(-Vector3.up * mouseX);
+        }
+        
     }
     void ShootRay()
     {
@@ -91,10 +107,13 @@ public class PlayerController : MonoBehaviourPun
 
             if (hit.transform.tag == "Target")
             {
-                if(placeRocket
-                   )
+                if(placeRocket)
                 {
-
+                    if(localRocket!=null)
+                    {
+                        localRocket.transform.position = rayHutPos.transform.position;
+                        localRocket.transform.eulerAngles = new Vector3(transform.eulerAngles.x - 45, 0, 0);
+                    }
                 }
                 else
                 {
@@ -144,9 +163,21 @@ public class PlayerController : MonoBehaviourPun
         }
     }
     [PunRPC]
-    public void TeamSelect(string teamName)
+    public void TeamSelect(int tm)
     {
-        team = teamName;
+        switch(tm)
+        {
+            case 0:
+                team = "A";
+                levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 0);
+                break;
+            case 1:
+                team = "B";
+                levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 1);
+                break;
+
+        }
+        teamSelectButtons.SetActive(false);
     }
     [PunRPC]
     public void HitEffect(string shipTeamName)
@@ -179,10 +210,11 @@ public class PlayerController : MonoBehaviourPun
         if (useFireExtingsher)
         {
             useFireExtingsher = false;
+            placeRocket = true;
         }
         else
         {
-            useFireExtingsher = true;
+            
             placeRocket = false;
         }
 
@@ -193,9 +225,27 @@ public class PlayerController : MonoBehaviourPun
         switch(buttonFunction)
         {
             case "FX":
-                UseExting();
+                photonView.RPC("UseExit",RpcTarget.All);
                 break;
+            case "PR":
+                photonView.RPC("PlaceRocket", RpcTarget.All);
+                break;
+
         }
 
+    }
+    public void RocketSelect(int value)
+    {
+        localRocket = rocketModel[value];
+    }
+    [PunRPC]
+    void LaunchRocket()
+    {
+        GameObject rocketlch = Instantiate(rocket[RocketSelection], new Vector3(rayHutPos.position.x, rayHutPos.position.y + 5, rayHutPos.position.z), rayHutPos.rotation);
+    }
+    
+    public void FireRocket()
+    {
+        photonView.RPC("LaunchRocket", RpcTarget.All);
     }
 }
