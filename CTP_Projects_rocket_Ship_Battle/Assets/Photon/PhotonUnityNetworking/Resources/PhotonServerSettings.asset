@@ -50,6 +50,8 @@ MonoBehaviour:
   - AddDedectRocket
   - LaunchRocket
   - ChangeRocket
+  - SelfDestroy
+  - GenNewwQs
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

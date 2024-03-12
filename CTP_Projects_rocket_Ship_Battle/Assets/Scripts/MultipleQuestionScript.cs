@@ -13,9 +13,23 @@ public class MultipleQuestionScript : MonoBehaviourPun
     string team;
     [SerializeField]
     int reward;
+    [SerializeField]
+    Transform[] answerPos;
+    [SerializeField]
+    GameObject[] answerBlocks;
     private void Update()
     {
         lm = FindObjectOfType<LevelManager>();
+        int index = Random.Range(1, 4);
+        answerBlocks[0].transform.localPosition = answerPos[index].localPosition;
+        answerBlocks[index].transform.localPosition = answerPos[0].localPosition;
+        for(int i = 0;i< 4;i++)
+        {
+            if(!(i == 0||i==index))
+            {
+                answerBlocks[i].transform.position = answerPos[i].localPosition;
+            }
+        }
     }
     public void CheckResult(string answer)
     {
@@ -55,6 +69,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
         {
             Debug.Log("Wrong");
         }
+        photonView.RPC("SelfDestroy", RpcTarget.All);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -63,4 +78,10 @@ public class MultipleQuestionScript : MonoBehaviourPun
             team = other.GetComponent<ShipController>().team;
         }
     }
+    [PunRPC]
+    void SelfDestroy()
+    {
+        Destroy(gameObject, 5);
+    }
+    
 }

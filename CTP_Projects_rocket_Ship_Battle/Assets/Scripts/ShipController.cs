@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 public class ShipController : MonoBehaviourPun
 {
+    float bounancy = 10;
     float SpeedRate;
     int hp = 1600;
     [SerializeField]
@@ -21,7 +22,7 @@ public class ShipController : MonoBehaviourPun
     [SerializeField]
     GameObject takeControlButton,rudder,shipcontrolSlider,shipUI;
     [SerializeField]
-    
+    GameObject[] quizItem;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,12 +70,28 @@ public class ShipController : MonoBehaviourPun
     
     private void OnTriggerStay(Collider other)
     {
+        if(other.tag==Constrain.TAG_Fire)
+        {
+            isOnFire = true;
+        }
         if(other.tag==Constrain.TAG_Water)
         {
-            rb.AddForce(Vector3.up * 10f);
-            rb.useGravity = false;
+            if(hp<=0)
+            {
+                
+                
+                bounancy -= Time.deltaTime;
+                rb.AddForce(Vector3.up * bounancy);
+            }
+            if(!(bounancy<=0))
+            {
+                rb.useGravity = false;
+            }
+           
+            rb.AddForce(Vector3.up * bounancy);
             
-            
+
+
         }
         if (other.tag == Constrain.TAG_Border)
         {
@@ -150,6 +167,11 @@ public class ShipController : MonoBehaviourPun
         hp -= damage;
         
     }
-    
-        
+    [PunRPC]
+    public void GenNewwQs(int damage)
+    {
+        GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)]);
+
+    }
+
 }

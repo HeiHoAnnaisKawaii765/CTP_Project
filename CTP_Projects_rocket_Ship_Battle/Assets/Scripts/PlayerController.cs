@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField]
     Transform camPos, camSet;
     [SerializeField]
-    GameObject fireExtingsher,teamSelectButtons,changeTeamButton;
+    GameObject fireExtingsher,teamSelectButtons,changeTeamButton, rocketPanel;
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
@@ -195,6 +195,7 @@ public class PlayerController : MonoBehaviourPun
         {
             useFireExtingsher = false;
             placeRocket = true;
+            rocketPanel.SetActive(false);
 
         }
         else
@@ -211,6 +212,7 @@ public class PlayerController : MonoBehaviourPun
         {
             useFireExtingsher = false;
             placeRocket = true;
+            rocketPanel.SetActive(true);
         }
         else
         {
@@ -236,7 +238,17 @@ public class PlayerController : MonoBehaviourPun
     }
     public void RocketSelect(int value)
     {
-        localRocket = rocketModel[value];
+        if(localRocket!=null)
+        {
+            Destroy(localRocket);
+            localRocket = null;
+            localRocket = rocketModel[value];
+        }
+        else
+        {
+            localRocket = rocketModel[value];
+        }
+        
     }
     [PunRPC]
     void LaunchRocket()
