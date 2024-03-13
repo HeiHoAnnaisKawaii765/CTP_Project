@@ -17,19 +17,14 @@ public class MultipleQuestionScript : MonoBehaviourPun
     Transform[] answerPos;
     [SerializeField]
     GameObject[] answerBlocks;
+    private void Start()
+    {
+       
+    }
     private void Update()
     {
         lm = FindObjectOfType<LevelManager>();
-        int index = Random.Range(1, 4);
-        answerBlocks[0].transform.localPosition = answerPos[index].localPosition;
-        answerBlocks[index].transform.localPosition = answerPos[0].localPosition;
-        for(int i = 0;i< 4;i++)
-        {
-            if(!(i == 0||i==index))
-            {
-                answerBlocks[i].transform.position = answerPos[i].localPosition;
-            }
-        }
+       
     }
     public void CheckResult(string answer)
     {
@@ -63,13 +58,13 @@ public class MultipleQuestionScript : MonoBehaviourPun
         if(answer==correctAnswer)
         {
             Debug.Log("Right");
-            lm.photonView.RPC("AddDedectRocket", RpcTarget.All,1, reward,team);
+            //lm.photonView.RPC("AddDedectRocket", RpcTarget.All,1, reward,team);
         }
         else
         {
             Debug.Log("Wrong");
         }
-        photonView.RPC("SelfDestroy", RpcTarget.All);
+        Destroy(gameObject, 3);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -81,7 +76,12 @@ public class MultipleQuestionScript : MonoBehaviourPun
     [PunRPC]
     void SelfDestroy()
     {
-        Destroy(gameObject, 5);
+        Destroy(this.gameObject, 5);
+    }
+    IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(3);
+        photonView.RPC("SelfDestroy", RpcTarget.All);
     }
     
 }
