@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviourPun
     GameObject
          localRocket;
     int RocketSelection;
+    [SerializeField]
+    Material myMat;
     private void Awake()
     {
         if (photonView.IsMine)
@@ -259,5 +261,10 @@ public class PlayerController : MonoBehaviourPun
     public void FireRocket()
     {
         photonView.RPC("LaunchRocket", RpcTarget.All);
+    }
+    [PunRPC]
+    void ChangeColor()
+    {
+        myMat.color = Random.ColorHSV();
     }
 }
