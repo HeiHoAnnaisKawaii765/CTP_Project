@@ -24,13 +24,14 @@ public class PlayerController : MonoBehaviourPun
     string team;
     ShipController ship;
     [SerializeField]
-    Animator anim;
+    Animator charAnim;
     Transform rayHutPos;
     GameObject
          localRocket;
     int RocketSelection;
     [SerializeField]
     Material myMat;
+    
     private void Awake()
     {
         if (photonView.IsMine)
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviourPun
             cameraTransform.position = camPos.transform.position;  //Set position/rotation same as the mount point
             cameraTransform.rotation = camPos.transform.rotation;
             rb = this.GetComponent<Rigidbody>();
+            photonView.RPC("ChangeColor", RpcTarget.All);
         }
     }
 
@@ -266,5 +268,33 @@ public class PlayerController : MonoBehaviourPun
     void ChangeColor()
     {
         myMat.color = Random.ColorHSV();
+    }
+    [PunRPC]
+    void AnimationUpdate()
+    {
+        if(moveJoystick.Horizontal !=0)
+        {
+            charAnim.SetBool("WLR", true);
+        }
+        else
+        {
+            charAnim.SetBool("WLR", false);
+        }
+        if (moveJoystick.Vertical != 0)
+        {
+            charAnim.SetBool("W", true);
+        }
+        else
+        {
+            charAnim.SetBool("W", false);
+        }
+        if (useFireExtingsher)
+        {
+            charAnim.SetBool("F", true);
+        }
+        else
+        {
+            charAnim.SetBool("F", false);
+        }
     }
 }
