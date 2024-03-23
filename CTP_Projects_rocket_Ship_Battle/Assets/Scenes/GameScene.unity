@@ -16434,8 +16434,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -1514988618, guid: f67d2cb0e7d692149ab487ed27443fd3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -57334,8 +57334,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -1514988618, guid: f67d2cb0e7d692149ab487ed27443fd3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -70670,7 +70670,8 @@ MonoBehaviour:
   takeControlButton: {fileID: 316788575}
   rudder: {fileID: 5348170377477497087}
   shipcontrolSlider: {fileID: 746210056}
-  shipUI: {fileID: 0}
+  shipUI: {fileID: 44420669}
+  quizItem: []
 --- !u!54 &1975128700
 Rigidbody:
   m_ObjectHideFlags: 0
