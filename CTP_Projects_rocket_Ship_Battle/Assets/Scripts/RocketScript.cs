@@ -8,8 +8,11 @@ public class RocketScript : MonoBehaviourPun
     Rigidbody rb;
     [SerializeField]
     float Speed,fuel,maxSpee,accRate;
-    
-    // Start is called before the first frame update
+    [SerializeField]
+    Transform[] enginePos;
+    public string headType;
+    public int dam;
+        // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -24,7 +27,12 @@ public class RocketScript : MonoBehaviourPun
             {
                 Speed += accRate *Time.deltaTime;
             }
-            rb.AddForce(Speed * transform.forward);
+            for(int i = 0;i<enginePos.Length;i++)
+            {
+                rb.AddForceAtPosition(transform.up*Speed,enginePos[i].position);
+            }
+
+            
             fuel -= Time.deltaTime;
         }
         rb.AddForce(rb.velocity.y * -Vector3.up);
@@ -33,6 +41,17 @@ public class RocketScript : MonoBehaviourPun
         
 
 
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag==Constrain.TAG_Water)
+        {
+            Destroy(gameObject, 2f);
+        }
+        else if(other.tag=="Target")
+        {
+            Destroy(gameObject);
+        }
     }
 
 }

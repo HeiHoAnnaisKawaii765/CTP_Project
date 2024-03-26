@@ -20,7 +20,7 @@ public class ShipController : MonoBehaviourPun
     LevelManager lm;
     PlayerController[] pCon;
     [SerializeField]
-    GameObject takeControlButton,rudder,shipcontrolSlider,shipUI;
+    GameObject takeControlButton,rudder,shipcontrolSlider,shipUI,fameObj;
     [SerializeField]
     GameObject[] quizItem;
     // Start is called before the first frame update
@@ -121,8 +121,18 @@ public class ShipController : MonoBehaviourPun
         {
             for(int i =0;i<pCon.Length;i++)
             {
+                if(other.GetComponent<RocketScript>().headType=="HE")
+                {
+                    photonView.RPC("GetHit", RpcTarget.All, other.GetComponent<RocketScript>().dam, true, other.gameObject.transform);
+                }
+                else
+                {
+                    photonView.RPC("GetHit", RpcTarget.All, other.GetComponent<RocketScript>().dam, false, other.gameObject.transform);
+                }
+                
                 pCon[i].photonView.RPC("HitEffect", RpcTarget.All,team);
             }
+            
         }
     }
     private void OnCollisionStay(Collision collision)
@@ -162,10 +172,13 @@ public class ShipController : MonoBehaviourPun
         }
     }
     [PunRPC]
-    void GetHit(int damage)
+    void GetHit(int damage,bool onFire,Transform hitPos)
     {
         hp -= damage;
-        
+        if(onFire)
+        {
+            GameObject flame = Instantiate(fameObj, hitPos);
+        }
     }
     [PunRPC]
     public void GenNewwQs(int damage)
