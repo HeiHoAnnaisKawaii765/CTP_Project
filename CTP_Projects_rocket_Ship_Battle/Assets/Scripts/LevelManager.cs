@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
+using TMPro;
 public class LevelManager : MonoBehaviourPun
 {
     public int teamAPlayerNum,teamBPlayerNum;
@@ -9,6 +11,16 @@ public class LevelManager : MonoBehaviourPun
     public int[] teamARocketNum, teamBRocketNum;
     [SerializeField]
     Transform[] shipPos;
+    [SerializeField]
+    float timeLength;
+    [SerializeField]
+    Slider timeSlider;
+    [SerializeField]
+    string[] winTxtContent;
+    [SerializeField]
+    TMP_Text timeText,winingTxt;
+    [SerializeField]
+    GameObject winUI,timerUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,18 +35,40 @@ public class LevelManager : MonoBehaviourPun
         {
             if(!gameStart)
             {
-                    
+                
             }
             else
             {
+                timeLength -= Time.deltaTime;
+                timeText.text = Mathf.Floor((timeLength / 60)).ToString("00") + ":" + (timeLength % 60).ToString("00");
                 photonView.RPC("LowestRocketValue", RpcTarget.All);
+                if(timeLength<=0)
+                { 
+                    gameOver = true;
+                }
              
             }
         }
+        else
+        {
+
+        }
     }
-    public void GameOver()
+    [PunRPC]
+    public void GameOver(string shipInc)
     {
         gameOver = true;
+        switch(shipInc)
+        {
+            case "A":
+                //B wins
+                winingTxt.text = winTxtContent[1];
+                break;
+            case "B":
+                winingTxt.text = winTxtContent[0];
+                //A wins
+                break;
+        }
     }
     [PunRPC]
     private void LowestRocketValue()

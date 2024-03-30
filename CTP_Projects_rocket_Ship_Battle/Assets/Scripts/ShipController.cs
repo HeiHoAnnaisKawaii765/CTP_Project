@@ -41,6 +41,10 @@ public class ShipController : MonoBehaviourPun
         {
             hp -= (int)(60 * Time.deltaTime);
         }
+        if(hp<0)
+        {
+            lm.photonView.RPC("GameOver", RpcTarget.All, team);
+        }
         SpeedRate = speedSlider.value;
         currentTurnRate = steerSlider.value;
         transform.Rotate(0, currentTurnRate * SpeedRate*Time.deltaTime, 0);
