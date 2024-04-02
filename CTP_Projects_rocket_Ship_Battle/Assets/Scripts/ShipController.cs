@@ -7,6 +7,7 @@ public class ShipController : MonoBehaviourPun
 {
     float bounancy = 10;
     float SpeedRate;
+    public
     int hp = 1600;
     [SerializeField]
     float maxSpeed,maxturnRate;
@@ -14,7 +15,7 @@ public class ShipController : MonoBehaviourPun
     float currentTurnRate,radius = 4f;
     public bool isControlling;
     [SerializeField]
-    Slider speedSlider, steerSlider;
+    Slider speedSlider, steerSlider,healthSlider;
     bool isOnFire;
     public string team;
     LevelManager lm;
@@ -31,13 +32,15 @@ public class ShipController : MonoBehaviourPun
         speedSlider.minValue = -1;
         steerSlider.maxValue = maxturnRate;
         steerSlider.minValue = -maxturnRate;
+        healthSlider.maxValue = hp;
     }
 
     // Update is called once per frame
     void Update()
     {
         lm = FindObjectOfType<LevelManager>();
-        if(isOnFire)
+        healthSlider.value = hp;
+        if (isOnFire)
         {
             hp -= (int)(60 * Time.deltaTime);
         }
@@ -152,6 +155,10 @@ public class ShipController : MonoBehaviourPun
                 takeControlButton.SetActive(false);
             }
         }
+        if (collision.gameObject.tag == "Vehicle")
+        {
+            photonView.RPC("GetHit", RpcTarget.All, 160, false, gameObject.transform);
+        }
     }
     float CurrentSpeed()
     {
@@ -189,6 +196,11 @@ public class ShipController : MonoBehaviourPun
     {
         GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)]);
 
+    }
+    [PunRPC]
+    void RudderTurn()
+    {
+        rudder.transform.Rotate(currentTurnRate, 0, 0);
     }
 
 }

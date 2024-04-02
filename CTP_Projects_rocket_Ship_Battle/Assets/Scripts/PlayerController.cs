@@ -15,11 +15,11 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField]
     Transform camPos, camSet;
     [SerializeField]
-    GameObject fireExtingsher,teamSelectButtons,changeTeamButton, rocketPanel;
+    GameObject fireExtingsher,teamSelectButtons,changeTeamButton, rocketPanel,binoUI,controlUI;
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
-    bool touchVehicle, usingVeh, useFireExtingsher,placeRocket;
+    bool touchVehicle, usingVeh, useFireExtingsher,placeRocket,binocular;
     public
     string team;
     ShipController ship;
@@ -75,12 +75,15 @@ public class PlayerController : MonoBehaviourPun
         }
         levelManager = FindObjectOfType<LevelManager>();
         ShootRay();
+        
         if(usingVeh)
         {
-
+            camSet.transform.localRotation = Quaternion.Euler(-xRotation, 0f, 0f);
+            controlUI.SetActive(false);
         }
         else
         {
+            controlUI.SetActive(true);
             transform.position += transform.forward * moveSpeed * moveJoystick.Vertical * Time.deltaTime;
             transform.position += transform.right * moveSpeed * moveJoystick.Horizontal * Time.deltaTime;
 
@@ -174,10 +177,12 @@ public class PlayerController : MonoBehaviourPun
             case 0:
                 team = "A";
                 levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 0);
+                transform.position = levelManager.shipPos[0].position;
                 break;
             case 1:
                 team = "B";
                 levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 1);
+                transform.position = levelManager.shipPos[0].position;
                 break;
 
         }
@@ -297,4 +302,23 @@ public class PlayerController : MonoBehaviourPun
             charAnim.SetBool("F", false);
         }
     }
+
+    public void Binocular()
+    {
+        if (binocular)
+        {
+            binocular = false;
+            binoUI.SetActive(false);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 60, 4.5f * Time.deltaTime);
+        }
+        else
+        {
+            binocular = true;
+            binoUI.SetActive(true);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 25, 4.5f * Time.deltaTime);
+        }
+    }
+    
+
+
 }

@@ -55,6 +55,9 @@ MonoBehaviour:
   - ChangeColor
   - AnimationUpdate
   - GameOver
+  - SelfTeam
+  - RudderTurn
+  - ResetGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

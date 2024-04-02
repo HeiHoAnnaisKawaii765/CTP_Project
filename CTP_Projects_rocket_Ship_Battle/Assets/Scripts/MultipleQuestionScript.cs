@@ -58,7 +58,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
         if(answer==correctAnswer)
         {
             Debug.Log("Right");
-            //lm.photonView.RPC("AddDedectRocket", RpcTarget.All,1, reward,team);
+            lm.photonView.RPC("AddDedectRocket", RpcTarget.All,1, reward,team);
         }
         else
         {
@@ -70,13 +70,19 @@ public class MultipleQuestionScript : MonoBehaviourPun
     {
         if(other.tag =="Vehicle")
         {
-            team = other.GetComponent<ShipController>().team;
+            photonView.RPC("SelfTeam", RpcTarget.All,other);
+            photonView.RPC("AddDedectRocket", RpcTarget.All, 1, reward, team);
         }
     }
     [PunRPC]
     void SelfDestroy()
     {
         Destroy(this.gameObject, 5);
+    }
+    [PunRPC]
+    void SelfTeam(Collider col)
+    {
+        team = col.GetComponent<ShipController>().team;
     }
     IEnumerator Destroy()
     {

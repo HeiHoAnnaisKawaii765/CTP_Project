@@ -221,12 +221,13 @@ MonoBehaviour:
   Speed: 0
   fuel: 100
   maxSpee: 100
-  accRate: 10
+  accRate: 50
   enginePos:
   - {fileID: 7878588237565708145}
   - {fileID: 7878588237626339575}
   - {fileID: 7878588236765486605}
   headType: AP
+  dam: 260
 --- !u!54 &5906617130699684440
 Rigidbody:
   m_ObjectHideFlags: 0
