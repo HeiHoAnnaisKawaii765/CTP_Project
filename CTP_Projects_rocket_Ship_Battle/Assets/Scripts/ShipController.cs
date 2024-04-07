@@ -14,8 +14,8 @@ public class ShipController : MonoBehaviourPun
     Rigidbody rb;
     float currentTurnRate,radius = 4f;
     public bool isControlling;
-    [SerializeField]
-    Slider speedSlider, steerSlider,healthSlider;
+    public 
+    Slider speedSlider, steerSlider;
     bool isOnFire;
     public string team;
     LevelManager lm;
@@ -32,14 +32,14 @@ public class ShipController : MonoBehaviourPun
         speedSlider.minValue = -1;
         steerSlider.maxValue = maxturnRate;
         steerSlider.minValue = -maxturnRate;
-        healthSlider.maxValue = hp;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         lm = FindObjectOfType<LevelManager>();
-        healthSlider.value = hp;
+        
         if (isOnFire)
         {
             hp -= (int)(60 * Time.deltaTime);
