@@ -8,8 +8,9 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider sfxSlider;
-    [SerializeField] private AudioSource bgmAudioSource;
+    [SerializeField] private AudioSource[] bgmAudioSource;
     public List<AudioSource> sfxAudioSources;
+    AudioSource currentTrack;
 
     [HideInInspector]
     public float bgmVolume = 0.5f;
@@ -21,6 +22,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        currentTrack = bgmAudioSource[0];
         // Load the saved volume settings from PlayerPrefs, or use default values if no settings are found
         bgmVolume = PlayerPrefs.GetFloat(BGM_VOLUME_KEY, 0.2f);
         sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 0.2f);
@@ -30,7 +32,11 @@ public class SoundManager : MonoBehaviour
         sfxSlider.value = sfxVolume;
 
         // Set the initial volume levels of the audio sources
-        bgmAudioSource.volume = bgmVolume;
+        foreach(AudioSource bgm in bgmAudioSource)
+        {
+            bgm.volume = bgmVolume;
+        }
+        
         foreach (AudioSource source in sfxAudioSources)
         {
             source.volume = sfxVolume;
@@ -40,7 +46,11 @@ public class SoundManager : MonoBehaviour
     public void SetBGMVolume(float volume)
     {
         bgmVolume = volume;
-        bgmAudioSource.volume = bgmVolume;
+        foreach (AudioSource bgm in bgmAudioSource)
+        {
+            bgm.volume = bgmVolume;
+        }
+        
         PlayerPrefs.SetFloat(BGM_VOLUME_KEY, bgmVolume);
     }
 
@@ -57,5 +67,27 @@ public class SoundManager : MonoBehaviour
     public void PlayEffectSoundButton()
     {
         sfxAudioSources[1].Play();
+    }
+    public void ChangeSoundTrack()
+    {
+        
+        if(currentTrack==bgmAudioSource[0])
+        {
+            bgmAudioSource[0].loop = false;
+            if(!bgmAudioSource[0].isPlaying)
+            {
+                bgmAudioSource[1].Play();
+                bgmAudioSource[1].loop=true;
+            }
+        }
+        else if (currentTrack == bgmAudioSource[1])
+        {
+            bgmAudioSource[1].loop = false;
+            if (!bgmAudioSource[1].isPlaying)
+            {
+                bgmAudioSource[0].Play();
+                bgmAudioSource[0].loop = true;
+            }
+        }
     }
 }
