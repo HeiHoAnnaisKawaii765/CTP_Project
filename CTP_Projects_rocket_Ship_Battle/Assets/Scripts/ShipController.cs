@@ -24,6 +24,7 @@ public class ShipController : MonoBehaviourPun
     GameObject takeControlButton,rudder,shipcontrolSlider,shipUI,fameObj;
     [SerializeField]
     GameObject[] quizItem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +52,7 @@ public class ShipController : MonoBehaviourPun
         SpeedRate = speedSlider.value;
         currentTurnRate = steerSlider.value;
         transform.Rotate(0, currentTurnRate * SpeedRate*Time.deltaTime, 0);
+        
 
     }
     private void FixedUpdate()
@@ -104,6 +106,7 @@ public class ShipController : MonoBehaviourPun
         {
             transform.position = new Vector3(0, -66.8f, 0);
         }
+        
     }
     private void OnTriggerExit(Collider other)
     {
@@ -192,7 +195,7 @@ public class ShipController : MonoBehaviourPun
         }
     }
     [PunRPC]
-    public void GenNewwQs(int damage)
+    public void GenNewQs()
     {
         GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)]);
 
@@ -202,5 +205,20 @@ public class ShipController : MonoBehaviourPun
     {
         rudder.transform.Rotate(currentTurnRate, 0, 0);
     }
+    public void TakeControl(int choice)
+    {
+        if(isControlling)
+        {
+            shipUI.SetActive(false);
+            isControlling = false;
+        }
+        else
+        {
+            shipUI.SetActive(true);
+            isControlling = true;
+        }
+       
 
+        
+    }
 }

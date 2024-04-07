@@ -17,6 +17,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
     Transform[] answerPos;
     [SerializeField]
     GameObject[] answerBlocks;
+    ShipController ship;
     private void Start()
     {
        
@@ -65,6 +66,8 @@ public class MultipleQuestionScript : MonoBehaviourPun
             Debug.Log("Wrong");
         }
         Destroy(gameObject, 3);
+        ship.photonView.RPC("GenNewQs", RpcTarget.All);
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -83,11 +86,13 @@ public class MultipleQuestionScript : MonoBehaviourPun
     void SelfTeam(Collider col)
     {
         team = col.GetComponent<ShipController>().team;
+        ship = col.GetComponent<ShipController>();
     }
     IEnumerator Destroy()
     {
         yield return new WaitForSeconds(3);
         photonView.RPC("SelfDestroy", RpcTarget.All);
     }
+    
     
 }

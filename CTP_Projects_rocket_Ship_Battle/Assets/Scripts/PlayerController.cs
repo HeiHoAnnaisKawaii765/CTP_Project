@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviourPun
     int RocketSelection;
     [SerializeField]
     Material myMat;
+    [SerializeField]
+    TMP_Text[] rocketValues;
     
     private void Awake()
     {
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviourPun
             return;
         }
         levelManager = FindObjectOfType<LevelManager>();
+        photonView.RPC("UpdateRocketNum", RpcTarget.All);
         ShootRay();
         
         if(usingVeh)
@@ -227,6 +230,23 @@ public class PlayerController : MonoBehaviourPun
         {
             
             placeRocket = false;
+        }
+
+
+    }
+    [PunRPC]
+    void UpdataeRocketNum()
+    {
+        for (int i = 0; i < rocketValues.Length; i++)
+        {
+            if (team == "A")
+            {
+                rocketValues[i].text = levelManager.teamARocketNum[i].ToString("0");
+            }
+            if (team == "B")
+            {
+                rocketValues[i].text = levelManager.teamBRocketNum[i].ToString("0");
+            }
         }
 
 
