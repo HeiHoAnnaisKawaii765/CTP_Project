@@ -28,6 +28,9 @@ public class LevelManager : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        orgShipPos = new Transform[ship.Length];
+        teamARocketNum = new int[4];
+        teamBRocketNum = new int[4];
         for (int i = 0;i<shipHpSlider.Length;i++)
         {
             shipHpSlider[i].maxValue = ship[i].hp;

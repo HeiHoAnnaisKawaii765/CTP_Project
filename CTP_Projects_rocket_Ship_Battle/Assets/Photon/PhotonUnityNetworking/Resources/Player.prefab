@@ -225,7 +225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &588093428
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2351,8 +2351,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 227.22205, y: 10.752441}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchoredPosition: {x: 201.98706, y: 41.034393}
+  m_SizeDelta: {x: 2323.7605, y: 1221.3164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2967073953723225272
 CanvasRenderer:
@@ -10380,7 +10380,10 @@ MonoBehaviour:
   ui:
   - {fileID: 8716593602038569514}
   rocketModel: []
-  rocket: []
+  rocket:
+  - {fileID: 6535660190059405536, guid: 8462316581bd18145bf745b2c24875b4, type: 3}
+  - {fileID: 3466629124053167679, guid: 413bcba45e6a98143b657860339c84cc, type: 3}
+  - {fileID: 6535660190059405536, guid: 37f817332602ee94ea384b429f958da7, type: 3}
   camPos: {fileID: 8716593602673975570}
   camSet: {fileID: 8716593601160422348}
   fireExtingsher: {fileID: 8798747630082297692}
@@ -10450,7 +10453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8716593602673975571}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.569, z: 0.948}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

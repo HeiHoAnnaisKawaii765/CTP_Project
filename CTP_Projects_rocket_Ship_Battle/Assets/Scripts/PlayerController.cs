@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviourPun
         }
         levelManager = FindObjectOfType<LevelManager>();
         photonView.RPC("UpdateRocketNum", RpcTarget.All);
+        photonView.RPC("AnimationUpdate", RpcTarget.All);
         ShootRay();
         
         if(usingVeh)
@@ -220,9 +221,13 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     void PlaceRocket()
     {
-        if (useFireExtingsher)
+        if (placeRocket)
         {
-            useFireExtingsher = false;
+            if(fireExtingsher)
+            {
+                useFireExtingsher = false;
+            }
+            
             placeRocket = true;
             rocketPanel.SetActive(true);
         }

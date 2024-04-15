@@ -160,7 +160,7 @@ public class ShipController : MonoBehaviourPun
         }
         if (collision.gameObject.tag == "Vehicle")
         {
-            photonView.RPC("GetHit", RpcTarget.All, 160, false, gameObject.transform);
+            photonView.RPC("GetHit", RpcTarget.All, 160, false, this.transform);
         }
     }
     float CurrentSpeed()

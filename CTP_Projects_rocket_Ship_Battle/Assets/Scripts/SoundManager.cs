@@ -16,7 +16,8 @@ public class SoundManager : MonoBehaviour
     public float bgmVolume = 0.5f;
     [HideInInspector]
     public float sfxVolume = 0.5f;
-
+    [SerializeField]
+    GameObject soundControlUI;
     private const string BGM_VOLUME_KEY = "BGM_VOLUME";
     private const string SFX_VOLUME_KEY = "SFX_VOLUME";
 
@@ -31,6 +32,7 @@ public class SoundManager : MonoBehaviour
         bgmSlider.value = bgmVolume;
         sfxSlider.value = sfxVolume;
 
+        soundControlUI.SetActive(false);
         // Set the initial volume levels of the audio sources
         foreach(AudioSource bgm in bgmAudioSource)
         {
@@ -88,6 +90,17 @@ public class SoundManager : MonoBehaviour
                 bgmAudioSource[0].Play();
                 bgmAudioSource[0].loop = true;
             }
+        }
+    }
+    public void SoundUIControl()
+    {
+        if(soundControlUI.activeSelf)
+        {
+            soundControlUI.SetActive(false);
+        }
+        else
+        {
+            soundControlUI.SetActive(true);
         }
     }
 }
