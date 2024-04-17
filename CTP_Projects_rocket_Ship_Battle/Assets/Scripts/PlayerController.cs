@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviourPun
         if(usingVeh)
         {
             camSet.transform.localRotation = Quaternion.Euler(-xRotation, 0f, 0f);
+            fireExtingsher.SetActive(false);
             controlUI.SetActive(false);
         }
         else
@@ -104,8 +105,8 @@ public class PlayerController : MonoBehaviourPun
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-            camSet.transform.localRotation = Quaternion.Euler(-xRotation, 0f, 0f);
-            transform.Rotate(-Vector3.up * mouseX);
+            camSet.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            transform.Rotate(Vector3.up * mouseX);
         }
         
     }
@@ -240,7 +241,7 @@ public class PlayerController : MonoBehaviourPun
 
     }
     [PunRPC]
-    void UpdataeRocketNum()
+    void UpdateRocketNum()
     {
         for (int i = 0; i < rocketValues.Length; i++)
         {
@@ -261,7 +262,7 @@ public class PlayerController : MonoBehaviourPun
         switch(buttonFunction)
         {
             case "FX":
-                photonView.RPC("UseExit",RpcTarget.All);
+                photonView.RPC("UseExting",RpcTarget.All);
                 break;
             case "PR":
                 photonView.RPC("PlaceRocket", RpcTarget.All);

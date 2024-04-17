@@ -52,7 +52,7 @@ public class NetworkLoginin : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         PhotonNetwork.LoadLevel(1);
     }

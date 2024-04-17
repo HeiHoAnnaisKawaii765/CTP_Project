@@ -158,7 +158,7 @@ public class ShipController : MonoBehaviourPun
                 takeControlButton.SetActive(false);
             }
         }
-        if (collision.gameObject.tag == "Vehicle")
+        if (collision.gameObject.tag == Constrain.TAG_bump)
         {
             photonView.RPC("GetHit", RpcTarget.All, 160, false, this.transform);
         }

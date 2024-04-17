@@ -11,6 +11,7 @@ TagManager:
   - NoFire
   - MC
   - Bullet
+  - Bump
   layers:
   - Default
   - TransparentFX

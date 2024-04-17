@@ -36,13 +36,7 @@ public class LevelManager : MonoBehaviourPun
             shipHpSlider[i].maxValue = ship[i].hp;
             shipHpSlider[i].minValue = 0;
         }
-        for (int i = 0; i < ship.Length; i++)
-        {
-            
-            orgShipPos[i].position = ship[i].gameObject.transform.position;
-            orgShipPos[i].rotation = ship[i].gameObject.transform.rotation;
-
-        }
+        
     }
 
     // Update is called once per frame
