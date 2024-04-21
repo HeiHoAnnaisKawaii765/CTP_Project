@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviourPun
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
+    public 
     bool touchVehicle, usingVeh, useFireExtingsher,placeRocket,binocular;
     public
     string team;
@@ -92,14 +93,7 @@ public class PlayerController : MonoBehaviourPun
             transform.position += transform.forward * moveSpeed * moveJoystick.Vertical * Time.deltaTime;
             transform.position += transform.right * moveSpeed * moveJoystick.Horizontal * Time.deltaTime;
 
-            if (fireExtingsher)
-            {
-                fireExtingsher.SetActive(true);
-            }
-            else
-            {
-                fireExtingsher.SetActive(false);
-            }
+            
             float mouseX = dirJoystick.Horizontal * mouseSensitivity * Time.deltaTime;
             float mouseY = dirJoystick.Vertical * mouseSensitivity * Time.deltaTime;
 
@@ -187,7 +181,7 @@ public class PlayerController : MonoBehaviourPun
             case 1:
                 team = "B";
                 levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 1);
-                transform.position = levelManager.shipPos[0].position;
+                transform.position = levelManager.shipPos[1].position;
                 break;
 
         }
@@ -208,13 +202,19 @@ public class PlayerController : MonoBehaviourPun
         if(useFireExtingsher)
         {
             useFireExtingsher = false;
-            placeRocket = true;
-            rocketPanel.SetActive(false);
+            fireExtingsher.SetActive(false);
+            if (placeRocket)
+            {
+                placeRocket = false;
+                rocketPanel.SetActive(false);
+            }
+            
 
         }
         else
         {
             useFireExtingsher = true;
+            fireExtingsher.SetActive(true);
         }
         
 
@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     void PlaceRocket()
     {
-        if (placeRocket)
+        if (!placeRocket)
         {
             if(fireExtingsher)
             {
@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviourPun
         {
             
             placeRocket = false;
+            rocketPanel.SetActive(false);
         }
 
 
@@ -301,6 +302,11 @@ public class PlayerController : MonoBehaviourPun
         myMat.color = Random.ColorHSV();
     }
     [PunRPC]
+    public void UseVeh(bool result)
+    {
+        usingVeh = result;
+    }
+    [PunRPC]
     void AnimationUpdate()
     {
         if(moveJoystick.Horizontal !=0)
@@ -341,7 +347,7 @@ public class PlayerController : MonoBehaviourPun
         {
             binocular = true;
             binoUI.SetActive(true);
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 25, 4.5f * Time.deltaTime);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 12, 4.5f * Time.deltaTime);
         }
     }
     

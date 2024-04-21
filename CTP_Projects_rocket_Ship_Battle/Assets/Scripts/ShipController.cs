@@ -102,6 +102,10 @@ public class ShipController : MonoBehaviourPun
 
 
         }
+        else
+        {
+            rb.useGravity = true;
+        }
         if (other.tag == Constrain.TAG_Border)
         {
             transform.position = new Vector3(0, -66.8f, 0);
@@ -155,7 +159,15 @@ public class ShipController : MonoBehaviourPun
             }
             else
             {
-                takeControlButton.SetActive(false);
+                if(collision.gameObject.GetComponent<PlayerController>().usingVeh)
+                {
+                    takeControlButton.SetActive(true);
+                }
+                else
+                {
+                    takeControlButton.SetActive(false);
+                }
+               
             }
         }
         if (collision.gameObject.tag == Constrain.TAG_bump)
@@ -209,13 +221,27 @@ public class ShipController : MonoBehaviourPun
     {
         if(isControlling)
         {
-            shipUI.SetActive(false);
+            foreach (PlayerController p in pCon)
+            {
+                if (photonView.IsMine)
+                {
+                    p.photonView.RPC("UseVeh", RpcTarget.All, false);
+                }
+            }
             isControlling = false;
+
         }
         else
         {
-            shipUI.SetActive(true);
+            
             isControlling = true;
+            foreach (PlayerController p in pCon)
+            {
+                if(photonView.IsMine)
+                {
+                    p.photonView.RPC("UseVeh", RpcTarget.All, true);
+                }
+            }
         }
        
 
