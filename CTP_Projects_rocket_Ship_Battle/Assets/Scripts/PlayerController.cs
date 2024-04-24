@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviourPun
     GameObject[] ui,rocketModel,rocket;
     [SerializeField]
     Transform camPos, camSet;
-    [SerializeField]
-    GameObject fireExtingsher,teamSelectButtons,changeTeamButton, rocketPanel,binoUI,controlUI;
+    public
+    GameObject fireExtingsher,teamSelectButtons,changeTeamButton, rocketPanel,binoUI,controlUI,localCanvas;
     LevelManager levelManager;
     Rigidbody rb;
     float xRotation = 0f;
@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviourPun
             cameraTransform.position = camPos.transform.position;  //Set position/rotation same as the mount point
             cameraTransform.rotation = camPos.transform.rotation;
             rb = this.GetComponent<Rigidbody>();
+            localCanvas.transform.SetParent(null);
             photonView.RPC("ChangeColor", RpcTarget.All);
         }
     }
@@ -147,7 +148,7 @@ public class PlayerController : MonoBehaviourPun
         }
         if (other.tag == "Vehicle")
         {
-
+            transform.SetParent(other.gameObject.transform);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -222,22 +223,26 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     void PlaceRocket()
     {
-        if (!placeRocket)
+        if(levelManager.gameStart)
         {
-            if(fireExtingsher)
+            if (!placeRocket)
             {
-                useFireExtingsher = false;
+                if (fireExtingsher)
+                {
+                    useFireExtingsher = false;
+                }
+
+                placeRocket = true;
+                rocketPanel.SetActive(true);
             }
-            
-            placeRocket = true;
-            rocketPanel.SetActive(true);
+            else
+            {
+
+                placeRocket = false;
+                rocketPanel.SetActive(false);
+            }
         }
-        else
-        {
-            
-            placeRocket = false;
-            rocketPanel.SetActive(false);
-        }
+       
 
 
     }
@@ -274,22 +279,13 @@ public class PlayerController : MonoBehaviourPun
     }
     public void RocketSelect(int value)
     {
-        if(localRocket!=null)
-        {
-            Destroy(localRocket);
-            localRocket = null;
-            localRocket = rocketModel[value];
-        }
-        else
-        {
-            localRocket = rocketModel[value];
-        }
-        
+        photonView.RPC("LaunchRocket", RpcTarget.All,value);
+
     }
     [PunRPC]
-    void LaunchRocket()
+    void LaunchRocket(int index)
     {
-        GameObject rocketlch = Instantiate(rocket[RocketSelection], new Vector3(rayHutPos.position.x, rayHutPos.position.y + 5, rayHutPos.position.z), rayHutPos.rotation);
+        GameObject rocketlch = Instantiate(rocket[index], new Vector3(transform.position.x, transform.position.y + 5, transform.position.z),Quaternion.identity);
     }
     
     public void FireRocket()

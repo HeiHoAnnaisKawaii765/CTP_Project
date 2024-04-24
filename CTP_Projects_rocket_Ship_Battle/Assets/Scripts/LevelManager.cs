@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviourPun
     ShipController[] ship;
     [SerializeField]
     Slider[] shipHpSlider;
+    SoundManager sm;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +43,14 @@ public class LevelManager : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        
+        if(FindObjectOfType<RocketScript>()!=null)
+        {
+            sm.ChangeSoundTrack(1);
+        }
+        else
+        {
+            sm.ChangeSoundTrack(0);
+        }
         if(!gameOver)
         {
             if(!gameStart)

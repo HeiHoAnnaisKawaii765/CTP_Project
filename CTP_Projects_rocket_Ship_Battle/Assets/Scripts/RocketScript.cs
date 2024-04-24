@@ -12,10 +12,22 @@ public class RocketScript : MonoBehaviourPun
     Transform[] enginePos;
     public string headType;
     public int dam;
+    [SerializeField]
+    Material mat;
         // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        switch(headType)
+        {
+            case "AP":
+                mat.color = Color.blue;
+                break;
+            case "HE":
+                mat.color = Color.red;
+                break;
+        }
+        
     }
 
     // Update is called once per frame

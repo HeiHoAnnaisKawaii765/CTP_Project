@@ -34,17 +34,28 @@ public class SoundManager : MonoBehaviour
 
         soundControlUI.SetActive(false);
         // Set the initial volume levels of the audio sources
-        foreach(AudioSource bgm in bgmAudioSource)
+        foreach (AudioSource bgm in bgmAudioSource)
         {
             bgm.volume = bgmVolume;
         }
-        
+
         foreach (AudioSource source in sfxAudioSources)
         {
             source.volume = sfxVolume;
         }
     }
+    private void Update()
+    {
+        foreach (AudioSource bgm in bgmAudioSource)
+        {
+            bgm.volume = bgmVolume;
+        }
 
+        foreach (AudioSource source in sfxAudioSources)
+        {
+            source.volume = sfxVolume;
+        }
+    }
     public void SetBGMVolume(float volume)
     {
         bgmVolume = volume;
@@ -70,25 +81,33 @@ public class SoundManager : MonoBehaviour
     {
         sfxAudioSources[1].Play();
     }
-    public void ChangeSoundTrack()
+    public void ChangeSoundTrack(int sit)
     {
         
-        if(currentTrack==bgmAudioSource[0])
+        if(sit==0)
         {
             bgmAudioSource[0].loop = false;
             if(!bgmAudioSource[0].isPlaying)
             {
-                bgmAudioSource[1].Play();
-                bgmAudioSource[1].loop=true;
+                if(!bgmAudioSource[1].isPlaying)
+                {
+                    bgmAudioSource[1].Play();
+                    bgmAudioSource[1].loop=true;
+                }
+                
             }
         }
-        else if (currentTrack == bgmAudioSource[1])
+        else if (sit==1)
         {
             bgmAudioSource[1].loop = false;
             if (!bgmAudioSource[1].isPlaying)
             {
-                bgmAudioSource[0].Play();
-                bgmAudioSource[0].loop = true;
+                if(!bgmAudioSource[0].isPlaying)
+                {
+                    bgmAudioSource[0].Play();
+                    bgmAudioSource[0].loop = true;
+                }
+                
             }
         }
     }

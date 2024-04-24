@@ -24,6 +24,9 @@ public class ShipController : MonoBehaviourPun
     GameObject takeControlButton,rudder,shipcontrolSlider,shipUI,fameObj;
     [SerializeField]
     GameObject[] quizItem;
+    public Transform conPos;
+    [SerializeField]
+    Transform mcPos;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,7 @@ public class ShipController : MonoBehaviourPun
         speedSlider.minValue = -1;
         steerSlider.maxValue = maxturnRate;
         steerSlider.minValue = -maxturnRate;
+        pCon = FindObjectsOfType<PlayerController>();
         
     }
 
@@ -40,18 +44,21 @@ public class ShipController : MonoBehaviourPun
     void Update()
     {
         lm = FindObjectOfType<LevelManager>();
+        if(lm.gameStart)
+        {
+            if (isOnFire)
+            {
+                hp -= (int)(60 * Time.deltaTime);
+            }
+            if (hp < 0)
+            {
+                lm.photonView.RPC("GameOver", RpcTarget.All, team);
+            }
+            SpeedRate = speedSlider.value;
+            currentTurnRate = steerSlider.value;
+            transform.Rotate(0, currentTurnRate * SpeedRate * Time.deltaTime, 0);
+        }
         
-        if (isOnFire)
-        {
-            hp -= (int)(60 * Time.deltaTime);
-        }
-        if(hp<0)
-        {
-            lm.photonView.RPC("GameOver", RpcTarget.All, team);
-        }
-        SpeedRate = speedSlider.value;
-        currentTurnRate = steerSlider.value;
-        transform.Rotate(0, currentTurnRate * SpeedRate*Time.deltaTime, 0);
         
 
     }
@@ -110,7 +117,26 @@ public class ShipController : MonoBehaviourPun
         {
             transform.position = new Vector3(0, -66.8f, 0);
         }
-        
+        if (other.gameObject.tag == "Player")
+        {
+            if (!isControlling)
+            {
+                takeControlButton.SetActive(true);
+            }
+            else
+            {
+                if (other.GetComponent<PlayerController>().usingVeh)
+                {
+                    takeControlButton.SetActive(true);
+                }
+                else
+                {
+                    takeControlButton.SetActive(false);
+                }
+
+            }
+        }
+
     }
     private void OnTriggerExit(Collider other)
     {
@@ -151,25 +177,7 @@ public class ShipController : MonoBehaviourPun
     }
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.tag =="Player")
-        {
-            if(!isControlling)
-            {
-                takeControlButton.SetActive(true);
-            }
-            else
-            {
-                if(collision.gameObject.GetComponent<PlayerController>().usingVeh)
-                {
-                    takeControlButton.SetActive(true);
-                }
-                else
-                {
-                    takeControlButton.SetActive(false);
-                }
-               
-            }
-        }
+        
         if (collision.gameObject.tag == Constrain.TAG_bump)
         {
             photonView.RPC("GetHit", RpcTarget.All, 160, false, this.transform);
@@ -209,7 +217,7 @@ public class ShipController : MonoBehaviourPun
     [PunRPC]
     public void GenNewQs()
     {
-        GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)]);
+        GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)],mcPos.position,mcPos.rotation);
 
     }
     [PunRPC]
@@ -219,27 +227,37 @@ public class ShipController : MonoBehaviourPun
     }
     public void TakeControl(int choice)
     {
+        
         if(isControlling)
         {
+            isControlling = false;
+
+            shipUI.SetActive(false);
             foreach (PlayerController p in pCon)
             {
                 if (photonView.IsMine)
                 {
                     p.photonView.RPC("UseVeh", RpcTarget.All, false);
+                    p.controlUI.SetActive(true);
+                    
                 }
             }
-            isControlling = false;
-
+            
         }
         else
         {
             
             isControlling = true;
+            shipUI.SetActive(true);
             foreach (PlayerController p in pCon)
             {
                 if(photonView.IsMine)
                 {
+                    p.transform.position = conPos.transform.position;
+                    p.transform.rotation = conPos.transform.rotation;
                     p.photonView.RPC("UseVeh", RpcTarget.All, true);
+                    p.controlUI.SetActive(false);
+
                 }
             }
         }

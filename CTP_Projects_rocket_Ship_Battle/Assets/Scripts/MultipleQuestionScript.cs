@@ -65,16 +65,19 @@ public class MultipleQuestionScript : MonoBehaviourPun
         {
             Debug.Log("Wrong");
         }
-        Destroy(gameObject, 3);
         ship.photonView.RPC("GenNewQs", RpcTarget.All);
+        photonView.RPC("SelfDestroy", RpcTarget.All);
+        
+        
 
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if(other.tag =="Vehicle")
+        if (other.tag == "Vehicle")
         {
-            photonView.RPC("SelfTeam", RpcTarget.All,other);
-            photonView.RPC("AddDedectRocket", RpcTarget.All, 1, reward, team);
+            //photonView.RPC("SelfTeam", RpcTarget.All, other);
+            team = other.GetComponent<ShipController>().team;
+            ship = other.GetComponent<ShipController>();
         }
     }
     [PunRPC]
@@ -85,8 +88,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
     [PunRPC]
     void SelfTeam(Collider col)
     {
-        team = col.GetComponent<ShipController>().team;
-        ship = col.GetComponent<ShipController>();
+        
     }
     IEnumerator Destroy()
     {
