@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviourPun
         levelManager = FindObjectOfType<LevelManager>();
         photonView.RPC("UpdateRocketNum", RpcTarget.All);
         photonView.RPC("AnimationUpdate", RpcTarget.All);
+        photonView.RPC("UpdateTeam", RpcTarget.All);
         ShootRay();
         
         if(usingVeh)
@@ -176,7 +177,7 @@ public class PlayerController : MonoBehaviourPun
         {
             case 0:
                 team = "A";
-                levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 0);
+                levelManager.photonView.RPC("TeamMemberNumChange", RpcTarget.All, 1);
                 transform.position = levelManager.shipPos[0].position;
                 break;
             case 1:
@@ -187,6 +188,11 @@ public class PlayerController : MonoBehaviourPun
 
         }
         teamSelectButtons.SetActive(false);
+    }
+
+    public void PickTeam(int select)
+    {
+        photonView.RPC("TeamSelect", RpcTarget.All, select);
     }
     [PunRPC]
     public void HitEffect(string shipTeamName)
@@ -253,11 +259,11 @@ public class PlayerController : MonoBehaviourPun
         {
             if (team == "A")
             {
-                rocketValues[i].text = levelManager.teamARocketNum[i].ToString("0");
+                rocketValues[i].text = "x" +levelManager.teamARocketNum[i].ToString("0");
             }
             if (team == "B")
             {
-                rocketValues[i].text = levelManager.teamBRocketNum[i].ToString("0");
+                rocketValues[i].text ="x" + levelManager.teamBRocketNum[i].ToString("0");
             }
         }
 
@@ -279,13 +285,31 @@ public class PlayerController : MonoBehaviourPun
     }
     public void RocketSelect(int value)
     {
-        photonView.RPC("LaunchRocket", RpcTarget.All,value);
+        switch(team)
+        {
+            case "A":
+                if(levelManager.teamARocketNum[value]>0)
+                {
+                    photonView.RPC("LaunchRocket", RpcTarget.All, value);
+                }
+
+                break;
+            case "B":
+                if (levelManager.teamBRocketNum[value] > 0)
+                {
+                    photonView.RPC("LaunchRocket", RpcTarget.All, value);
+                }
+
+                break;
+        }
+        
 
     }
     [PunRPC]
     void LaunchRocket(int index)
     {
         GameObject rocketlch = Instantiate(rocket[index], new Vector3(transform.position.x, transform.position.y + 5, transform.position.z),Quaternion.identity);
+        levelManager.photonView.RPC("AddDedectRocket", RpcTarget.All, index, -1, team);
     }
     
     public void FireRocket()
@@ -346,7 +370,22 @@ public class PlayerController : MonoBehaviourPun
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 12, 4.5f * Time.deltaTime);
         }
     }
-    
+    [PunRPC]
+    void UpdateTeam()
+    {
+        if(team!=null)
+        {
+            switch(team)
+            {
+                case "A":
+                    team = "A";
+                    break;
+                case "B":
+                    team = "B";
+                    break;
+            }
+        }
+    }
 
 
 }

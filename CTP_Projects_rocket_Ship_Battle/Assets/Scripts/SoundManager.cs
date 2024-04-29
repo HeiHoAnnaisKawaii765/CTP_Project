@@ -24,6 +24,7 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         currentTrack = bgmAudioSource[0];
+        
         // Load the saved volume settings from PlayerPrefs, or use default values if no settings are found
         bgmVolume = PlayerPrefs.GetFloat(BGM_VOLUME_KEY, 0.2f);
         sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 0.2f);
@@ -31,31 +32,24 @@ public class SoundManager : MonoBehaviour
         // Set the initial values of the sliders to the current volume levels
         bgmSlider.value = bgmVolume;
         sfxSlider.value = sfxVolume;
+        foreach (AudioSource bgm in bgmAudioSource)
+        {
+            bgm.volume = bgmVolume;
+        }
 
+        foreach (AudioSource source in sfxAudioSources)
+        {
+            source.volume = sfxVolume;
+        }
         soundControlUI.SetActive(false);
+        if (bgmAudioSource.Length > 1)
+        {
+            bgmAudioSource[1].Stop();
+        }
         // Set the initial volume levels of the audio sources
-        foreach (AudioSource bgm in bgmAudioSource)
-        {
-            bgm.volume = bgmVolume;
-        }
 
-        foreach (AudioSource source in sfxAudioSources)
-        {
-            source.volume = sfxVolume;
-        }
     }
-    private void Update()
-    {
-        foreach (AudioSource bgm in bgmAudioSource)
-        {
-            bgm.volume = bgmVolume;
-        }
-
-        foreach (AudioSource source in sfxAudioSources)
-        {
-            source.volume = sfxVolume;
-        }
-    }
+    
     public void SetBGMVolume(float volume)
     {
         bgmVolume = volume;
@@ -74,12 +68,12 @@ public class SoundManager : MonoBehaviour
         {
             source.volume = sfxVolume;
         }
-        sfxAudioSources[1].Play();
+        
         PlayerPrefs.SetFloat(SFX_VOLUME_KEY, sfxVolume);
     }
     public void PlayEffectSoundButton()
     {
-        sfxAudioSources[1].Play();
+        sfxAudioSources[0].Play();
     }
     public void ChangeSoundTrack(int sit)
     {

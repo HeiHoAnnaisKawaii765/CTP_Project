@@ -36,6 +36,7 @@ public class ShipController : MonoBehaviourPun
         speedSlider.minValue = -1;
         steerSlider.maxValue = maxturnRate;
         steerSlider.minValue = -maxturnRate;
+        photonView.RPC("GenNewQs", RpcTarget.All);
         pCon = FindObjectsOfType<PlayerController>();
         
     }
@@ -50,7 +51,7 @@ public class ShipController : MonoBehaviourPun
             {
                 hp -= (int)(60 * Time.deltaTime);
             }
-            if (hp < 0)
+            if (hp <= 0)
             {
                 lm.photonView.RPC("GameOver", RpcTarget.All, team);
             }

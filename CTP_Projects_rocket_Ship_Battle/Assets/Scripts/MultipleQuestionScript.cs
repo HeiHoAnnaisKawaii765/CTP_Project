@@ -29,44 +29,41 @@ public class MultipleQuestionScript : MonoBehaviourPun
     }
     public void CheckResult(string answer)
     {
-        switch(correctAnswer)
+        if(lm.gameStart)
         {
-            case "A":
-                buttonBG[0].color = Color.blue;
-                buttonBG[1].color = Color.red;
-                buttonBG[2].color = Color.red;
-                buttonBG[3].color = Color.red;
-                break;
-            case "B":
-                buttonBG[1].color = Color.blue;
-                buttonBG[0].color = Color.red;
-                buttonBG[2].color = Color.red;
-                buttonBG[3].color = Color.red;
-                break;
-            case "C":
-                buttonBG[2].color = Color.blue;
-                buttonBG[1].color = Color.red;
-                buttonBG[0].color = Color.red;
-                buttonBG[3].color = Color.red;
-                break;
-            case "D":
-                buttonBG[3].color = Color.blue;
-                buttonBG[1].color = Color.red;
-                buttonBG[2].color = Color.red;
-                buttonBG[0].color = Color.red;
-                break;
+            switch (correctAnswer)
+            {
+                case "A":
+                    buttonBG[0].color = Color.blue;
+
+                    break;
+                case "B":
+                    buttonBG[1].color = Color.blue;
+
+                    break;
+                case "C":
+                    buttonBG[2].color = Color.blue;
+
+                    break;
+                case "D":
+                    buttonBG[3].color = Color.blue;
+
+                    break;
+            }
+            if (answer == correctAnswer)
+            {
+                Debug.Log("Right");
+                lm.photonView.RPC("AddDedectRocket", RpcTarget.All, 1, reward, team);
+            }
+            else
+            {
+                Debug.Log("Wrong");
+            }
+            StartCoroutine(Destroy());
+            Destroy(gameObject,3f);
         }
-        if(answer==correctAnswer)
-        {
-            Debug.Log("Right");
-            lm.photonView.RPC("AddDedectRocket", RpcTarget.All,1, reward,team);
-        }
-        else
-        {
-            Debug.Log("Wrong");
-        }
-        ship.photonView.RPC("GenNewQs", RpcTarget.All);
-        photonView.RPC("SelfDestroy", RpcTarget.All);
+       
+        //photonView.RPC("SelfDestroy", RpcTarget.All);
         
         
 
@@ -83,17 +80,18 @@ public class MultipleQuestionScript : MonoBehaviourPun
     [PunRPC]
     void SelfDestroy()
     {
-        Destroy(this.gameObject, 5);
+        Destroy(this.gameObject);
     }
     [PunRPC]
     void SelfTeam(Collider col)
     {
-        
+        team = col.GetComponent<ShipController>().team;
+        ship = col.GetComponent<ShipController>();
     }
     IEnumerator Destroy()
     {
-        yield return new WaitForSeconds(3);
-        photonView.RPC("SelfDestroy", RpcTarget.All);
+        yield return new WaitForSeconds(2);
+        ship.photonView.RPC("GenNewQs", RpcTarget.All);
     }
     
     

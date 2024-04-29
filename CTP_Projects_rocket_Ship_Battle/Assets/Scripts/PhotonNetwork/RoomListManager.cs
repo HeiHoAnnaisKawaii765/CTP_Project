@@ -34,7 +34,10 @@ public class RoomListManager : MonoBehaviourPunCallbacks
 
             newRoom.GetComponentInChildren<TMP_Text>().text = room.Name;
 
-            newRoom.transform.SetParent(gridLayout);        }
+            newRoom.transform.SetParent(gridLayout);
+
+            newRoom.transform.localPosition = Vector3.zero;
+        }
     }
    
 }
