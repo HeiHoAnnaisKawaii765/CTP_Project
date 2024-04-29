@@ -222,9 +222,11 @@ public class LevelManager : MonoBehaviourPun
                 break;
         }
     }
+
     public void LeaveRoom()
     {
         string Lteam="";
+        FindObjectOfType<SoundManager>().PlayEffectSoundButton(0);
         if (!gameStart)
         {
             PlayerController[] pScript = FindObjectsOfType<PlayerController>();
@@ -242,7 +244,7 @@ public class LevelManager : MonoBehaviourPun
 
                     PhotonNetwork.LeaveRoom();
                     PhotonNetwork.LoadLevel(0);
-                    teamAPlayerNum -= 1;
+                   
                     photonView.RPC("PNumChange", RpcTarget.All, 0);
                     break;
                 case "B":

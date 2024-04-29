@@ -25,6 +25,7 @@ public class RoomListManager : MonoBehaviourPunCallbacks
                 if(roomList[i].PlayerCount ==0)
                 {
                     roomList.Remove(roomList[i]);
+                    Destroy(gridLayout.GetChild(i).gameObject);
                 }
             }
         }
@@ -36,7 +37,7 @@ public class RoomListManager : MonoBehaviourPunCallbacks
 
             newRoom.transform.SetParent(gridLayout);
 
-            newRoom.transform.localPosition = Vector3.zero;
+            
         }
     }
    

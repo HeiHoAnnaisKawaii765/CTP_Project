@@ -328,7 +328,7 @@ MonoBehaviour:
   - {fileID: 7878588236765486605}
   headType: AP
   dam: 260
-  mat: {fileID: 0}
+  mat: {fileID: 1151616957188097279}
 --- !u!54 &5906617130699684440
 Rigidbody:
   m_ObjectHideFlags: 0

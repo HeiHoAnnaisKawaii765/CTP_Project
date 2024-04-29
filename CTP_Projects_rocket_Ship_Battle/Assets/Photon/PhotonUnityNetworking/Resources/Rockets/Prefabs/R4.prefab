@@ -88,7 +88,7 @@ MonoBehaviour:
   - {fileID: 3311454550773667758}
   headType: HE
   dam: 120
-  mat: {fileID: 0}
+  mat: {fileID: 3797863473709603667}
 --- !u!54 &3466629124053167677
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,7 +129,6 @@ GameObject:
   - component: {fileID: 7466817689315489398}
   - component: {fileID: 4839826394731969779}
   - component: {fileID: 3797863473709603667}
-  - component: {fileID: 70479716994017637}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -202,19 +201,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &70479716994017637
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4649018155039049695}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5403709122262020701
 GameObject:
   m_ObjectHideFlags: 0

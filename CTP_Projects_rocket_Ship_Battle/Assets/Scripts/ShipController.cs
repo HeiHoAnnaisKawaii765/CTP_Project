@@ -58,6 +58,7 @@ public class ShipController : MonoBehaviourPun
             SpeedRate = speedSlider.value;
             currentTurnRate = steerSlider.value;
             transform.Rotate(0, currentTurnRate * SpeedRate * Time.deltaTime, 0);
+            photonView.RPC("ShowConBTN", RpcTarget.All);
         }
         
         
@@ -120,22 +121,7 @@ public class ShipController : MonoBehaviourPun
         }
         if (other.gameObject.tag == "Player")
         {
-            if (!isControlling)
-            {
-                takeControlButton.SetActive(true);
-            }
-            else
-            {
-                if (other.GetComponent<PlayerController>().usingVeh)
-                {
-                    takeControlButton.SetActive(true);
-                }
-                else
-                {
-                    takeControlButton.SetActive(false);
-                }
-
-            }
+           
         }
 
     }
@@ -263,7 +249,30 @@ public class ShipController : MonoBehaviourPun
             }
         }
        
-
         
+        
+    }
+    [PunRPC]
+    void ShowConBTN()
+    {
+        if (!isControlling)
+        {
+            takeControlButton.SetActive(true);
+        }
+        else
+        {
+            foreach (PlayerController p in pCon)
+            {
+
+                if (p.team == team)
+                {
+                    if (!p.usingVeh)
+                    {
+                        takeControlButton.SetActive(false);
+                    }
+                }
+            }
+
+        }
     }
 }

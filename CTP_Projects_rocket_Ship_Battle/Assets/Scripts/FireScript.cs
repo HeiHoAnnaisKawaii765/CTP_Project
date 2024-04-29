@@ -10,14 +10,24 @@ public class FireScript : MonoBehaviourPun
         transform.localScale = new Vector3(1, fireRemain / 150, 1);
         if(fireRemain<=0)
         {
-            Destroy(gameObject);
+            photonView.RPC("Off", RpcTarget.All);
         }
     }
     private void OnTriggerStay(Collider other)
     {
         if(other.tag=="Water")
         {
-            fireRemain -= 20* Time.deltaTime;
+            photonView.RPC("Pouring", RpcTarget.All);  
         }
+    }
+    [PunRPC]
+    void Pouring()
+    {
+        fireRemain -= 20 * Time.deltaTime;
+    }
+    [PunRPC]
+    void Off()
+    {
+        Destroy(gameObject);
     }
 }

@@ -67,6 +67,10 @@ MonoBehaviour:
   - UpdateTeam
   - PNumChange
   - UIGameMechan
+  - <TakeControl>g__ShowConBTN|35_0
+  - ShowConBTN
+  - Off
+  - Pouring
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

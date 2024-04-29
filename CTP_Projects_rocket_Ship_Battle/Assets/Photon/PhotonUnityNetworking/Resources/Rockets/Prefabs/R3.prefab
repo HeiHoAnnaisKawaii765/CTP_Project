@@ -229,7 +229,7 @@ MonoBehaviour:
   - {fileID: 7878588236765486605}
   headType: HE
   dam: 260
-  mat: {fileID: 0}
+  mat: {fileID: 5817983633959223891}
 --- !u!54 &5906617130699684440
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -270,7 +270,6 @@ GameObject:
   - component: {fileID: 4453464691084233252}
   - component: {fileID: 5334124679726029348}
   - component: {fileID: 5817983633959223891}
-  - component: {fileID: 4441802237923551728}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -343,20 +342,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4441802237923551728
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6670589596622105971}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.0000005662441}
 --- !u!1 &7878588236765486604
 GameObject:
   m_ObjectHideFlags: 0

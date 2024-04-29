@@ -71,9 +71,9 @@ public class SoundManager : MonoBehaviour
         
         PlayerPrefs.SetFloat(SFX_VOLUME_KEY, sfxVolume);
     }
-    public void PlayEffectSoundButton()
+    public void PlayEffectSoundButton(int index)
     {
-        sfxAudioSources[0].Play();
+        sfxAudioSources[index].Play();
     }
     public void ChangeSoundTrack(int sit)
     {
@@ -105,8 +105,10 @@ public class SoundManager : MonoBehaviour
             }
         }
     }
+
     public void SoundUIControl()
     {
+        PlayEffectSoundButton(0);
         if(soundControlUI.activeSelf)
         {
             soundControlUI.SetActive(false);

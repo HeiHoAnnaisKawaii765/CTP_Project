@@ -13,7 +13,7 @@ public class RocketScript : MonoBehaviourPun
     public string headType;
     public int dam;
     [SerializeField]
-    Material mat;
+    Renderer mat;
         // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +21,10 @@ public class RocketScript : MonoBehaviourPun
         switch(headType)
         {
             case "AP":
-                mat.color = Color.blue;
+                mat.material.color = Color.blue;
                 break;
             case "HE":
-                mat.color = Color.red;
+                mat.material.color = Color.red;
                 break;
         }
         

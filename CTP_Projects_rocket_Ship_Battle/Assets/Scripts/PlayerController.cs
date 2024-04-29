@@ -308,12 +308,13 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     void LaunchRocket(int index)
     {
-        GameObject rocketlch = Instantiate(rocket[index], new Vector3(transform.position.x, transform.position.y + 5, transform.position.z),Quaternion.identity);
-        levelManager.photonView.RPC("AddDedectRocket", RpcTarget.All, index, -1, team);
+        GameObject rocketlch = Instantiate(rocket[index], new Vector3(transform.position.x, transform.position.y + 10, transform.position.z),Quaternion.identity);
+        levelManager.photonView.RPC("AddDedectRocket", RpcTarget.All, -1, index, team);
     }
     
     public void FireRocket()
     {
+        FindObjectOfType<SoundManager>().PlayEffectSoundButton(0);
         photonView.RPC("LaunchRocket", RpcTarget.All);
     }
     [PunRPC]
