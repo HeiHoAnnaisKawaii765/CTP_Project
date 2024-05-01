@@ -6099,7 +6099,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166559091}
   m_LocalRotation: {x: 0.6919918, y: -0, z: -0, w: 0.72190547}
-  m_LocalPosition: {x: 0, y: 0.61, z: 0}
+  m_LocalPosition: {x: 0, y: 0.17, z: 0.0013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7093,7 +7093,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1975128699}
         m_TargetAssemblyTypeName: ShipController, Assembly-CSharp
-        m_MethodName: TurnControl
+        m_MethodName: SetTurn
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8840,7 +8840,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1975128699}
         m_TargetAssemblyTypeName: ShipController, Assembly-CSharp
-        m_MethodName: SpeedControl
+        m_MethodName: SetSpeed
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9044,7 +9044,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 872018867}
         m_TargetAssemblyTypeName: ShipController, Assembly-CSharp
-        m_MethodName: SpeedControl
+        m_MethodName: SetSpeed
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20958,7 +20958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773862386}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.61, z: 0}
+  m_LocalPosition: {x: 0, y: 0.303, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21994,7 +21994,6 @@ GameObject:
   - component: {fileID: 872018866}
   - component: {fileID: 872018865}
   - component: {fileID: 872018864}
-  - component: {fileID: 872018863}
   m_Layer: 0
   m_Name: Ship (1)
   m_TagString: Vehicle
@@ -22002,19 +22001,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &872018863
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 872018862}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.07434057, y: 0.77338636, z: 0.07871978}
-  m_Center: {x: 0.02315028, y: 0.7174179, z: -0.20322229}
 --- !u!114 &872018864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22158,8 +22144,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.21543008, y: 2.7188516, z: 0.78458834}
-  m_Center: {x: 0.016682977, y: 0.03878212, z: 0.063834086}
+  m_Size: {x: 0.21543005, y: 1.4359632, z: 0.7845883}
+  m_Center: {x: 0.016682973, y: -0.6026626, z: 0.06383408}
 --- !u!4 &872018869
 Transform:
   m_ObjectHideFlags: 0
@@ -26108,8 +26094,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 1867557827, guid: f67d2cb0e7d692149ab487ed27443fd3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -34205,8 +34191,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 1867557827, guid: f67d2cb0e7d692149ab487ed27443fd3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36330,8 +36316,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 1867557827, guid: f67d2cb0e7d692149ab487ed27443fd3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36599,7 +36585,6 @@ GameObject:
   - component: {fileID: 1975128700}
   - component: {fileID: 1975128702}
   - component: {fileID: 1975128701}
-  - component: {fileID: 1975128703}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Vehicle
@@ -36618,8 +36603,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.21543008, y: 2.7188516, z: 0.78458834}
-  m_Center: {x: 0.016682977, y: 0.03878212, z: 0.063834086}
+  m_Size: {x: 0.21543005, y: 1.4359632, z: 0.7845883}
+  m_Center: {x: 0.016682973, y: -0.6026626, z: 0.06383408}
 --- !u!4 &1975128698
 Transform:
   m_ObjectHideFlags: 0
@@ -36774,19 +36759,6 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!65 &1975128703
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1975128694}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.07434057, y: 0.77338636, z: 0.07871978}
-  m_Center: {x: 0.02315028, y: 0.7174179, z: -0.20322229}
 --- !u!1 &1979894806
 GameObject:
   m_ObjectHideFlags: 0
@@ -36879,7 +36851,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 872018867}
         m_TargetAssemblyTypeName: ShipController, Assembly-CSharp
-        m_MethodName: TurnControl
+        m_MethodName: SetTurn
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -37221,8 +37193,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 1867557827, guid: f67d2cb0e7d692149ab487ed27443fd3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -37599,7 +37571,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: af9c95315ca587c41ab73f29735faa86, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

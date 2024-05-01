@@ -18,9 +18,12 @@ public class MultipleQuestionScript : MonoBehaviourPun
     [SerializeField]
     GameObject[] answerBlocks;
     ShipController ship;
+    [SerializeField] Sprite im;
     private void Start()
     {
-       
+        Image image = transform.Find("BG").GetComponent<Image>();
+        image.sprite = im;
+        photonView.RPC("RandomNum", RpcTarget.All);
     }
     private void Update()
     {
@@ -87,6 +90,11 @@ public class MultipleQuestionScript : MonoBehaviourPun
     {
         team = col.GetComponent<ShipController>().team;
         ship = col.GetComponent<ShipController>();
+    }
+    [PunRPC]
+    void RandomNum()
+    {
+        reward = Random.Range(0, 3);
     }
     IEnumerator Destroy()
     {

@@ -486,6 +486,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 2355826257517012129}
+  im: {fileID: 21300000, guid: ac83e81c3f17dd843929aaacdbabecbd, type: 3}
 --- !u!65 &202436065977914790
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -497,8 +498,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1965.24, y: 1089, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 677.87915, y: 359.00192, z: 1}
+  m_Center: {x: -12.33162, y: -29.594551, z: 0}
 --- !u!54 &646050636
 Rigidbody:
   m_ObjectHideFlags: 0

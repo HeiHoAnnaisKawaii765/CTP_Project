@@ -200,6 +200,7 @@ public class LevelManager : MonoBehaviourPun
     }
     public void StayOrLeave(int index)
     {
+        PlayerController[] ps = FindObjectsOfType<PlayerController>();
         switch (index)
         {
             case 0:
@@ -207,20 +208,28 @@ public class LevelManager : MonoBehaviourPun
                 PhotonNetwork.LoadLevel(0);
                 break;
             case 1:
-                if(photonView.IsMine)
+                foreach(PlayerController p in ps)
                 {
-                    winUI.SetActive(false);
-                    photonView.GetComponent<PlayerController>().TeamSelect(0);
+                    if (photonView.IsMine)
+                    {
+
+                        p.photonView.RPC("TeamSelect", RpcTarget.All, 0);
+                    }
                 }
+                
                 break;
             case 2:
-                if (photonView.IsMine)
+                foreach (PlayerController p in ps)
                 {
-                    winUI.SetActive(false);
-                    photonView.GetComponent<PlayerController>().TeamSelect(1);
+                    if (photonView.IsMine)
+                    {
+
+                        p.photonView.RPC("TeamSelect", RpcTarget.All, 1);
+                    }
                 }
                 break;
         }
+        winUI.SetActive(false);
     }
 
     public void LeaveRoom()
@@ -336,15 +345,24 @@ public class LevelManager : MonoBehaviourPun
         else
         {
             restartGameLength -= Time.deltaTime;
-            restartCountText.text = "Game will reset at:" + Mathf.Floor((restartGameLength / 60)).ToString("00") + ":" + (restartGameLength % 60).ToString("00");
-            if (restartGameLength <= 0 && PhotonNetwork.CountOfPlayers > 1)
+            
+            if (restartGameLength <= 0)
             {
-                photonView.RPC("ResetGame", RpcTarget.All);
+                if(PhotonNetwork.CountOfPlayers > 1)
+                {
+                    photonView.RPC("ResetGame", RpcTarget.All);
+                    restartCountText.text = "Game will reset at:" + Mathf.Floor((restartGameLength / 60)).ToString("00") + ":" + (restartGameLength % 60).ToString("00");
+                    timeText.text = "Game will reset at:" + Mathf.Floor((restartGameLength / 60)).ToString("00") + ":" + (restartGameLength % 60).ToString("00");
+                }
+                else
+                {
+                    restartGameLength = 30f;
+                    restartCountText.text = "Wait for more player";
+                    timeText.text = "Wait for more player";
+                }
+
             }
-            else
-            {
-                restartGameLength = 30f;
-            }
+            
 
         }
     }

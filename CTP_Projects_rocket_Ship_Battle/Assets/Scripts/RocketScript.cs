@@ -14,11 +14,15 @@ public class RocketScript : MonoBehaviourPun
     public int dam;
     [SerializeField]
     Renderer mat;
-        // Start is called before the first frame update
+    GameObject ship;
+    AudioSource sound;
+    // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        switch(headType)
+        sound = this.GetComponent<AudioSource>();
+        sound.volume = FindObjectOfType<SoundManager>().sfxVolume;
+        switch (headType)
         {
             case "AP":
                 mat.material.color = Color.blue;
@@ -56,14 +60,30 @@ public class RocketScript : MonoBehaviourPun
     }
     private void OnTriggerEnter(Collider other)
     {
+        ship = other.gameObject;
+        Transform myTransform = this.transform;
         if(other.tag==Constrain.TAG_Water)
         {
-            Destroy(gameObject, 2f);
+            PhotonView.Destroy(gameObject);
         }
-        else if(other.tag=="Target")
+        if(other.tag=="Vehicle")
         {
-            Destroy(gameObject);
+            switch(headType)
+            {
+                case "AP":
+                    ship.GetComponent<ShipController>().photonView.RPC("GetHit", RpcTarget.All, dam, false, myTransform.position);
+                    break;
+                case "HE":
+                    ship.GetComponent<ShipController>().photonView.RPC("GetHit", RpcTarget.All, dam, true, myTransform.position);
+                    break;
+            }
+            PhotonView.Destroy(gameObject,0.1f);
         }
+        
     }
-
+    [PunRPC]
+    void Destroy(float time)
+    {
+        Destroy(gameObject, time);
+    }
 }

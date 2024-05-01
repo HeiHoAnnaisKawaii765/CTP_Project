@@ -27,11 +27,12 @@ public class ShipController : MonoBehaviourPun
     public Transform conPos;
     [SerializeField]
     Transform mcPos;
-
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        
         speedSlider.maxValue = maxSpeed;
         speedSlider.minValue = -1;
         steerSlider.maxValue = maxturnRate;
@@ -49,16 +50,16 @@ public class ShipController : MonoBehaviourPun
         {
             if (isOnFire)
             {
-                hp -= (int)(60 * Time.deltaTime);
+                photonView.RPC("GetHit", RpcTarget.All, 40*Time.deltaTime, false, Vector3.zero);
             }
             if (hp <= 0)
             {
                 lm.photonView.RPC("GameOver", RpcTarget.All, team);
             }
-            SpeedRate = speedSlider.value;
-            currentTurnRate = steerSlider.value;
-            transform.Rotate(0, currentTurnRate * SpeedRate * Time.deltaTime, 0);
+            
+            transform.Rotate(0, currentTurnRate/1000 * SpeedRate * Time.deltaTime, 0);
             photonView.RPC("ShowConBTN", RpcTarget.All);
+            photonView.RPC("RudderTurn", RpcTarget.All);
         }
         
         
@@ -146,16 +147,20 @@ public class ShipController : MonoBehaviourPun
         }
         if(other.tag =="Bullet")
         {
-            for(int i =0;i<pCon.Length;i++)
+            RocketScript r = other.GetComponent<RocketScript>();
+            Transform rTran = other.transform;
+            if (r.headType == "HE")
             {
-                if(other.GetComponent<RocketScript>().headType=="HE")
-                {
-                    photonView.RPC("GetHit", RpcTarget.All, other.GetComponent<RocketScript>().dam, true, other.gameObject.transform);
-                }
-                else
-                {
-                    photonView.RPC("GetHit", RpcTarget.All, other.GetComponent<RocketScript>().dam, false, other.gameObject.transform);
-                }
+                //photonView.RPC("GetHit", RpcTarget.All, r.dam, true, rTran);
+            }
+            else
+            {
+                
+            }
+            //PhotonView.Destroy(other.gameObject);
+            for (int i =0;i<pCon.Length;i++)
+            {
+                
                 
                 pCon[i].photonView.RPC("HitEffect", RpcTarget.All,team);
             }
@@ -193,12 +198,12 @@ public class ShipController : MonoBehaviourPun
         }
     }
     [PunRPC]
-    void GetHit(int damage,bool onFire,Transform hitPos)
+    void GetHit(int damage,bool onFire,Vector3 hitPos)
     {
         hp -= damage;
         if(onFire)
         {
-            GameObject flame = Instantiate(fameObj, hitPos);
+            GameObject flame = Instantiate(fameObj, hitPos,Quaternion.identity);
         }
     }
     [PunRPC]
@@ -210,7 +215,7 @@ public class ShipController : MonoBehaviourPun
     [PunRPC]
     void RudderTurn()
     {
-        rudder.transform.Rotate(currentTurnRate, 0, 0);
+        rudder.transform.rotation = Quaternion.Euler(currentTurnRate, 0, 0);
     }
     public void TakeControl(int choice)
     {
@@ -223,9 +228,12 @@ public class ShipController : MonoBehaviourPun
             foreach (PlayerController p in pCon)
             {
                 if (photonView.IsMine)
-                {
-                    p.photonView.RPC("UseVeh", RpcTarget.All, false);
-                    p.controlUI.SetActive(true);
+                {if(p.team==team)
+                    {
+                        p.photonView.RPC("UseVeh", RpcTarget.All, false);
+                        p.controlUI.SetActive(true);
+                    }
+                    
                     
                 }
             }
@@ -240,10 +248,14 @@ public class ShipController : MonoBehaviourPun
             {
                 if(photonView.IsMine)
                 {
-                    p.transform.position = conPos.transform.position;
-                    p.transform.rotation = conPos.transform.rotation;
-                    p.photonView.RPC("UseVeh", RpcTarget.All, true);
-                    p.controlUI.SetActive(false);
+                    if(p.team==team)
+                    {
+                        p.transform.position = conPos.transform.position;
+                        p.transform.rotation = conPos.transform.rotation;
+                        p.photonView.RPC("UseVeh", RpcTarget.All, true);
+                        p.controlUI.SetActive(false);
+                    }
+                    
 
                 }
             }
@@ -274,5 +286,25 @@ public class ShipController : MonoBehaviourPun
             }
 
         }
+    }
+    [PunRPC]
+    void UpdateMovementForward(float ver)
+    {
+        SpeedRate = ver;
+        
+    }
+    public void SetSpeed(float speed)
+    {
+        photonView.RPC("UpdateMovementForward", RpcTarget.All, speed);
+    }
+    [PunRPC]
+    void UpdateMovementTurn(float hor)
+    {
+       
+        currentTurnRate = hor;
+    }
+    public void SetTurn(float speed)
+    {
+        photonView.RPC("UpdateMovementTurn", RpcTarget.All, speed);
     }
 }
