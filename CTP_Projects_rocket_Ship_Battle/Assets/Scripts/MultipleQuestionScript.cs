@@ -23,7 +23,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
     {
         Image image = transform.Find("BG").GetComponent<Image>();
         image.sprite = im;
-        photonView.RPC("RandomNum", RpcTarget.All);
+        reward = Random.Range(0, 3);
     }
     private void Update()
     {
@@ -94,7 +94,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
     [PunRPC]
     void RandomNum()
     {
-        reward = Random.Range(0, 3);
+        
     }
     IEnumerator Destroy()
     {
