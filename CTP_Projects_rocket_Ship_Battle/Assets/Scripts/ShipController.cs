@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 public class ShipController : MonoBehaviourPun
 {
-    float bounancy = 10;
+    float bounancy = 50;
     float SpeedRate;
     public
     int hp = 1600;
@@ -172,7 +172,7 @@ public class ShipController : MonoBehaviourPun
         
         if (collision.gameObject.tag == Constrain.TAG_bump)
         {
-            photonView.RPC("GetHit", RpcTarget.All, 160, false, this.transform);
+            photonView.RPC("GetHit", RpcTarget.All, 40 * Time.deltaTime, false, Vector3.zero);
         }
     }
     float CurrentSpeed()

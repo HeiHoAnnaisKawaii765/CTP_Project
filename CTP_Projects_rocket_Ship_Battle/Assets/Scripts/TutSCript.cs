@@ -55,6 +55,7 @@ public class TutSCript : MonoBehaviour
         missonText.text = missons[proceture];
         if(proceture==7)
         {
+            PlayerPrefs.SetInt(Constrain.PLAYER_Tut, 1);
             StartCoroutine(LoadBackToMenu());
         }
     }

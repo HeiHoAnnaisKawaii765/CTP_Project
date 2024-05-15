@@ -5,4 +5,6 @@ public class Constrain
     public static string PLAYERPREFS_HighScore = "HighScore", PLAYERPREFS_AirHighScore = "AirHighScore";
     public static string teamAName = "A",teamBName="B";
     public static string PLAYER_FireExBTNNAME = "FX";
+    public static string PLAYER_Tut = "Tut";
+
 }
