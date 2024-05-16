@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviourPun
             rb = this.GetComponent<Rigidbody>();
             localCanvas.transform.SetParent(null);
             photonView.RPC("ChangeColor", RpcTarget.All);
+            controlUI.SetActive(false);
         }
     }
 
@@ -187,7 +188,13 @@ public class PlayerController : MonoBehaviourPun
                 break;
 
         }
+        controlUI.SetActive(true);
         teamSelectButtons.SetActive(false);
+    }
+
+    public void SelectTeam(int mt)
+    {
+        photonView.RPC("TeamSelect", RpcTarget.All, mt);
     }
 
     public void PickTeam(int select)

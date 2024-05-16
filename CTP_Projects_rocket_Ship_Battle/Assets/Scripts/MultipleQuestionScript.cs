@@ -63,7 +63,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
                 Debug.Log("Wrong");
             }
             StartCoroutine(Destroy());
-            Destroy(gameObject,3f);
+            Destroy(gameObject);
         }
        
         //photonView.RPC("SelfDestroy", RpcTarget.All);
