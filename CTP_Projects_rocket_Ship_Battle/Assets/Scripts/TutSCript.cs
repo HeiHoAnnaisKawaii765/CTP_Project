@@ -73,4 +73,8 @@ public class TutSCript : MonoBehaviour
         }
         
     }
+    public void BTM()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

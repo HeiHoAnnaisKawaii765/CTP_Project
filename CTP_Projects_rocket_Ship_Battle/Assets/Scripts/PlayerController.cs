@@ -315,7 +315,24 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     void LaunchRocket(int index)
     {
-        GameObject rocketlch = Instantiate(rocket[index], new Vector3(transform.position.x, transform.position.y + 10, transform.position.z),Quaternion.identity);
+        switch(index)
+        {
+            case 0:
+                PhotonNetwork.Instantiate("R1", new Vector3(transform.position.x, transform.position.y + 10, transform.position.z), Quaternion.identity);
+                break;
+            case 1:
+                PhotonNetwork.Instantiate("R2", new Vector3(transform.position.x, transform.position.y + 10, transform.position.z), Quaternion.identity);
+                break;
+            case 2:
+                PhotonNetwork.Instantiate("R3", new Vector3(transform.position.x, transform.position.y + 10, transform.position.z), Quaternion.identity);
+                break;
+            case 3:
+                PhotonNetwork.Instantiate("R4", new Vector3(transform.position.x, transform.position.y + 10, transform.position.z), Quaternion.identity);
+                break;
+
+        }
+        
+        //GameObject rocketlch = Instantiate(rocket[index], new Vector3(transform.position.x, transform.position.y + 10, transform.position.z),Quaternion.identity);
         levelManager.photonView.RPC("AddDedectRocket", RpcTarget.All, -1, index, team);
     }
     

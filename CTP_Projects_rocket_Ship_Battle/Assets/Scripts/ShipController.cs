@@ -209,7 +209,9 @@ public class ShipController : MonoBehaviourPun
     [PunRPC]
     public void GenNewQs()
     {
-        GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)],mcPos.position,mcPos.rotation);
+        string qZName = quizItem[Random.Range(0, quizItem.Length)].name;
+        PhotonNetwork.Instantiate(qZName, mcPos.position, mcPos.rotation);
+        //GameObject obj = Instantiate(quizItem[Random.Range(0, quizItem.Length)],mcPos.position,mcPos.rotation);
 
     }
     [PunRPC]

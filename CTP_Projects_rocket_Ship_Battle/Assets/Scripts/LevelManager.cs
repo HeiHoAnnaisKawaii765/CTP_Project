@@ -44,14 +44,15 @@ public class LevelManager : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if(FindObjectOfType<RocketScript>()!=null)
+        if(FindObjectOfType<RocketScript>()==null)
         {
             sm.ChangeSoundTrack(1);
         }
-        else
+        else if(FindObjectOfType<RocketScript>() != null)
         {
             sm.ChangeSoundTrack(0);
         }
+
         if(!gameStart)
         {
             quitUI.SetActive(true);

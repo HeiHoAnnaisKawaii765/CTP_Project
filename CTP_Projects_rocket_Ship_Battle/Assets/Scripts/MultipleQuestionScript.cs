@@ -62,7 +62,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
             {
                 Debug.Log("Wrong");
             }
-            StartCoroutine(Destroy());
+            ship.photonView.RPC("GenNewQs", RpcTarget.All);
             Destroy(gameObject);
         }
        
@@ -99,7 +99,7 @@ public class MultipleQuestionScript : MonoBehaviourPun
     IEnumerator Destroy()
     {
         yield return new WaitForSeconds(2);
-        ship.photonView.RPC("GenNewQs", RpcTarget.All);
+        
     }
     
     

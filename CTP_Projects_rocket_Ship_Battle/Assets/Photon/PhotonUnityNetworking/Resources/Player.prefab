@@ -8473,13 +8473,13 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: W
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: WLR
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: F
   m_SynchronizeLayers:
   - SynchronizeType: 0
